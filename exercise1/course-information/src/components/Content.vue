@@ -17,12 +17,7 @@ export default {
     Part
   },
   props: {
-    parts: {
-      partN: {
-        name: String,
-        exercises: Number
-      }
-    }
+    parts: Array
   }
 }
 </script>
