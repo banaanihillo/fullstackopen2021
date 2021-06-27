@@ -1,8 +1,8 @@
 <template>
 <span>
-  <Header :courseName="courseName" />
-  <Content :parts="parts" />
-  <Total :parts="parts" />
+  <Header :courseName="course.courseName" />
+  <Content :parts="course.parts" />
+  <Total :parts="course.parts" />
 </span>
 </template>
 
@@ -20,21 +20,23 @@ export default {
   },
   data() {
     return {
-      courseName: "Half Stack application development",
-      parts: [
-        {
-          name: "Fundamentals of front-end frameworks",
-          exercises: 10
-        },
-        {
-          name: "Using data properties within templates",
-          exercises: 7
-        },
-        {
-          name: "State of a component",
-          exercises: 14
-        }
-      ]
+      course: {
+        courseName: "Half Stack application development",
+        parts: [
+          {
+            name: "Fundamentals of front-end frameworks",
+            exercises: 10
+          },
+          {
+            name: "Using data properties within templates",
+            exercises: 7
+          },
+          {
+            name: "State of a component",
+            exercises: 14
+          }
+        ]
+      }
     }
   }
 }
