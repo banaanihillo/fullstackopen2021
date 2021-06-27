@@ -2,7 +2,7 @@
 <span>
   <Header :courseName="courseName" />
   <Content :parts="parts" />
-  <Total :numberOfExercises="numberOfExercises" />
+  <Total :parts="parts" />
 </span>
 </template>
 
@@ -21,27 +21,20 @@ export default {
   data() {
     return {
       courseName: "Half Stack application development",
-      parts: {
-        partOne: {
+      parts: [
+        {
           name: "Fundamentals of front-end frameworks",
           exercises: 10
         },
-        partTwo: {
+        {
           name: "Using data properties within templates",
           exercises: 7
         },
-        partThree: {
+        {
           name: "State of a component",
           exercises: 14
         }
-      }
-    }
-  },
-  computed: {
-    numberOfExercises() {
-      return Object.values(this.parts).reduce((accumulator, part) => {
-        return (accumulator + part.exercises)
-      }, 0)
+      ]
     }
   }
 }
