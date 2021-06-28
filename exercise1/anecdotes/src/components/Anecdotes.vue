@@ -1,5 +1,6 @@
 <template>
   <span>
+    <h1> Anecdote of the day </h1>
     <p>
       {{anecdotes[currentIndex].content}}
     </p>
@@ -13,6 +14,12 @@
     <button @click="generateRandomIndex">
       New anecdote
     </button>
+
+    <h2> Favorite anecdote </h2>
+    <p>
+      Most voted anecdote ({{mostVoted.votes}}): <br />
+      {{mostVoted.content}}
+    </p>
   </span>
 </template>
 
@@ -70,6 +77,16 @@ export default {
     },
     vote(index) {
       this.anecdotes[index].votes++
+    }
+  },
+  computed: {
+    mostVoted() {
+      const mostVotes = Math.max(...this.anecdotes.map((anecdote) => {
+        return anecdote.votes
+      }))
+      return this.anecdotes.find((anecdote) => {
+        return (anecdote.votes === mostVotes)
+      })
     }
   }
 }
