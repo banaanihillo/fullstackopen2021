@@ -1,24 +1,33 @@
 <template>
 <span>
   <h2> Statistics </h2>
-  <p>
-    Positive: {{feedback.positive}}
-  </p>
-  <p>
-    Neutral: {{feedback.neutral}}
-  </p>
-  <p>
-    Negative: {{feedback.negative}}
-  </p>
-  <p>
-    Total: {{totalFeedback}}
-  </p>
-  <p>
-    Average: {{average}}
-  </p>
-  <p>
-    Positive: {{positivePercentage}}
-  </p>
+
+  <span v-if="totalFeedback === 0">
+    <p>
+      No feedback given.
+    </p>
+  </span>
+  
+  <span v-else>
+    <p>
+      Positive: {{feedback.positive}}
+    </p>
+    <p>
+      Neutral: {{feedback.neutral}}
+    </p>
+    <p>
+      Negative: {{feedback.negative}}
+    </p>
+    <p>
+      Total: {{totalFeedback}}
+    </p>
+    <p>
+      Average: {{average}}
+    </p>
+    <p>
+      Positive: {{positivePercentage}}
+    </p>
+  </span>
 </span>
 </template>
 
