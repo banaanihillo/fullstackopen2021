@@ -9,15 +9,25 @@
   </span>
 
   <span v-else>
-    <Statistic description="Positive" :value="feedback.positive" />
-    <Statistic description="Neutral" :value="feedback.neutral" />
-    <Statistic description="Negative" :value="feedback.negative" />
-    <Statistic description="Total" :value="totalFeedback" />
-    <Statistic description="Average" :value="average" />
-    <Statistic
-      description="Positive percentage"
-      :value="positivePercentage"
-    />
+    <table>
+      <thead>
+        <tr>
+          <th> Feedback </th>
+          <th> Score </th>
+        </tr>
+      </thead>
+      <tbody>
+        <Statistic description="Positive" :value="feedback.positive" />
+        <Statistic description="Neutral" :value="feedback.neutral" />
+        <Statistic description="Negative" :value="feedback.negative" />
+        <Statistic description="Total" :value="totalFeedback" />
+        <Statistic description="Average" :value="average" />
+        <Statistic
+          description="Positive %"
+          :value="positivePercentage"
+        />
+      </tbody>
+    </table>
   </span>
 </span>
 </template>
@@ -81,5 +91,18 @@ export default {
 </script>
 
 <style>
-
+table {
+  margin: 0 auto;
+  font-size: 1.5em;
+}
+th,
+tr:nth-of-type(even) {
+  background-color: #222222;
+  color: violet;
+}
+td,
+th {
+  outline: 1px solid darkviolet;
+  width: 10em;
+}
 </style>
