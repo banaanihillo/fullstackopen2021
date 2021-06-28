@@ -2,21 +2,22 @@
 <span>
   <h1> Feedback </h1>
   <p class="feedback-buttons">
-    <button
-      @click="increment('positive')"
+    <Button
       class="positive"
-    >
-      Positive
-    </button>
+      label="Positive"
+      :feedback="feedback"
+    />
 
-    <button @click="increment('neutral')"> Neutral </button>
+    <Button
+      label="Neutral"
+      :feedback="feedback"
+    />
 
-    <button
-      @click="increment('negative')"
+    <Button
       class="negative"
-    >
-      Negative
-    </button>
+      label="Negative"
+      :feedback="feedback"
+    />
   </p>
   <Statistics :feedback="feedback" />
 </span>
@@ -24,11 +25,13 @@
 
 <script>
 import Statistics from "./components/Statistics.vue"
+import Button from "./components/Button.vue"
 
 export default {
   name: 'App',
   components: {
-    Statistics
+    Statistics,
+    Button
   },
   data() {
     return {
@@ -38,12 +41,7 @@ export default {
         negative: 0
       }
     }
-  },
-  methods: {
-    increment(feedbackType) {
-      return this.feedback[feedbackType]++
-    }
-  }
+  }//
 }
 </script>
 
