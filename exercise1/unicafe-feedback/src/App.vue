@@ -18,25 +18,17 @@
       Negative
     </button>
   </p>
-  <h2> Statistics </h2>
-  <p>
-    Positive: {{feedback.positive}}
-  </p>
-  <p>
-    Neutral: {{feedback.neutral}}
-  </p>
-  <p>
-    Negative: {{feedback.negative}}
-  </p>
+  <Statistics :feedback="feedback" />
 </span>
 </template>
 
 <script>
+import Statistics from "./components/Statistics.vue"
 
 export default {
   name: 'App',
   components: {
-    
+    Statistics
   },
   data() {
     return {
