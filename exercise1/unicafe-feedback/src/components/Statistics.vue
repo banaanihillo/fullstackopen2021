@@ -7,32 +7,28 @@
       No feedback given.
     </p>
   </span>
-  
+
   <span v-else>
-    <p>
-      Positive: {{feedback.positive}}
-    </p>
-    <p>
-      Neutral: {{feedback.neutral}}
-    </p>
-    <p>
-      Negative: {{feedback.negative}}
-    </p>
-    <p>
-      Total: {{totalFeedback}}
-    </p>
-    <p>
-      Average: {{average}}
-    </p>
-    <p>
-      Positive: {{positivePercentage}}
-    </p>
+    <Statistic description="Positive" :value="feedback.positive" />
+    <Statistic description="Neutral" :value="feedback.neutral" />
+    <Statistic description="Negative" :value="feedback.negative" />
+    <Statistic description="Total" :value="totalFeedback" />
+    <Statistic description="Average" :value="average" />
+    <Statistic
+      description="Positive percentage"
+      :value="positivePercentage"
+    />
   </span>
 </span>
 </template>
 
 <script>
+import Statistic from "./Statistic.vue"
+
 export default {
+  components: {
+    Statistic
+  },
   props: {
     feedback: Object
   },
