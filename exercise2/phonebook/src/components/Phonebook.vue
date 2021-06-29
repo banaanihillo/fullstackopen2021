@@ -1,12 +1,20 @@
 <template>
 <span>
   <h1> Phone book </h1>
+  <label for="search"> Filter by name </label>
+  <input
+    type="search"
+    id="search"
+    v-model="search"
+  />
+
   <h2> Numbers </h2>
   <ul>
-    <li v-for="person in people" :key="person.name">
+    <li v-for="person in filteredPeople" :key="person.name">
       {{person.name}} ({{person.number}})
     </li>
   </ul>
+
   <h2> Add a new name </h2>
   <form @submit.prevent="onSubmit">
     <span class="input">
@@ -43,7 +51,8 @@ export default {
       input: {
         name: "",
         number: ""
-      }
+      },
+      search: ""
     }
   },
   methods: {
@@ -52,6 +61,19 @@ export default {
       this.input = {
         name: "",
         number: ""
+      }
+    }
+  },
+  computed: {
+    filteredPeople() {
+      if (this.search) {
+        return this.people.filter((person) => {
+          return person.name.toLowerCase().includes(
+            this.search.toLowerCase()
+          )
+        })
+      } else {
+        return this.people
       }
     }
   }
