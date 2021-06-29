@@ -26,12 +26,16 @@ export default {
   },
   methods: {
     addPerson(input) {
-      this.people = [
-        ...this.people,
-        {
-          ...input
-        }
-      ]
+      if (this.people.find((person) => person.name === input.name)) {
+        alert(`${input.name} already exists.`)
+      } else {
+        this.people = [
+          ...this.people,
+          {
+            ...input
+          }
+        ]
+      }
     }
   },
 }
