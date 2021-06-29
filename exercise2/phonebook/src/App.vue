@@ -16,10 +16,12 @@ export default {
     return {
       people: [
         {
-          name: "Banana Hillo"
+          name: "Banana Hillo",
+          number: "555-BNN-HLLO"
         },
         {
-          name: "Hillo Banana"
+          name: "Hillo Banana",
+          number: "1-800-HLL-BNAN"
         }
       ]
     }

@@ -1,21 +1,30 @@
 <template>
 <span>
-  <h1> Names but no numbers </h1>
-  <h2> Names </h2>
+  <h1> Phone book </h1>
+  <h2> Numbers </h2>
   <ul>
     <li v-for="person in people" :key="person.name">
-      {{person.name}}
+      {{person.name}} ({{person.number}})
     </li>
   </ul>
   <h2> Add a new name </h2>
   <form @submit.prevent="onSubmit">
-    <label>
-      Name
+    <span class="input">
+      <label for="name-input"> Name </label>
       <input
         type="text"
         v-model="input.name"
+        id="name-input"
       />
-    </label>
+    </span>
+    <br />
+    <span class="input">
+      <label for="number-input"> Number </label>
+      <input
+        type="text"
+        v-model="input.number"
+      />
+    </span>
     <br />
     <button type="submit">
       Add
@@ -32,13 +41,18 @@ export default {
   data() {
     return {
       input: {
-        name: ""
+        name: "",
+        number: ""
       }
     }
   },
   methods: {
     onSubmit() {
       this.$emit("add-person", this.input)
+      this.input = {
+        name: "",
+        number: ""
+      }
     }
   }
 }
@@ -53,4 +67,14 @@ button {
   background-color: plum;
   margin-top: 1em;
 }
+
+.input {
+  display: flex;
+  justify-content: center;
+}
+
+.input label {
+  width: 5em;
+}
+
 </style>
