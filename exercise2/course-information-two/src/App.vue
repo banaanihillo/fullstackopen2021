@@ -37,6 +37,11 @@ export default {
             name: "Modular components",
             exercises: 1,
             id: "oaoaoao0ao0ao0ao0so0os0os0o0o0o0o0o0o0o0"
+          },
+          {
+            name: "Adding exercises",
+            exercises: 10,
+            id: "057dd2867202769"
           }
         ]
       }
