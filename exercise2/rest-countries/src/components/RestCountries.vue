@@ -25,28 +25,7 @@
   </span>
 
   <span v-else-if="filteredCountries.length === 1">
-    <h2> {{filteredCountries[0].name}} </h2>
-    <p>
-      Native name: {{filteredCountries[0].nativeName}} <br />
-      Capital: {{filteredCountries[0].capital}} <br />
-      Population: {{filteredCountries[0].population}} <br />
-    </p>
-
-    <h3> Languages </h3>
-    <ul>
-      <li
-        v-for="language in filteredCountries[0].languages"
-        :key="language.iso639_2"
-      >
-        {{language.name}} ({{language.nativeName}})
-      </li>
-    </ul>
-
-    <img
-      :src="filteredCountries[0].flag"
-      :alt="'Flag of ' + filteredCountries[0].name"
-      width="100"
-    />
+    <CountryInformation :country="filteredCountries[0]" />
   </span>
 
   <span v-else>
@@ -55,7 +34,20 @@
         v-for="country in filteredCountries"
         :key="country.alpha3Code"
       >
-        {{country.name}} ({{country.nativeName}})
+        {{country.name}}
+        ({{country.nativeName}})
+
+        <span v-if="country === expandedCountry">
+          <button @click="toggleCountryInformation(null)">
+            Collapse
+          </button>
+          <CountryInformation :country="country" />
+        </span>
+        <span v-else>
+          <button @click="toggleCountryInformation(country)">
+            Expand
+          </button>
+        </span>
       </li>
     </ul>
   </span>
@@ -63,11 +55,17 @@
 </template>
 
 <script>
+import CountryInformation from "./CountryInformation.vue"
+
 export default {
+  components: {
+    CountryInformation
+  },
   data() {
     return {
       countries: [],
-      searchQuery: ""
+      searchQuery: "",
+      expandedCountry: null
     }
   },
   async created() {
@@ -97,11 +95,16 @@ export default {
         })
       }
     }
+  },
+  methods: {
+    toggleCountryInformation(country) {
+      this.expandedCountry = country
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 ul {
   display: flex;
   flex-flow: column nowrap;

@@ -25,7 +25,8 @@ body {
   margin-top: 60px;
 }
 
-input {
+input,
+button {
   background-color: plum;
 }
 </style>
