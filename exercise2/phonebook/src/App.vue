@@ -11,6 +11,7 @@
 import Phonebook from './components/Phonebook.vue'
 import AddPerson from "./components/AddPerson.vue"
 import Search from "./components/Search.vue"
+import axios from "axios"
 
 export default {
   name: 'App',
@@ -21,16 +22,7 @@ export default {
   },
   data() {
     return {
-      people: [
-        {
-          name: "Banana Hillo",
-          number: "555-BNN-HLLO"
-        },
-        {
-          name: "Hillo Banana",
-          number: "1-800-HLL-BNAN"
-        }
-      ],
+      people: [],
       searchQuery: ""
     }
   },
@@ -63,6 +55,10 @@ export default {
         return this.people
       }
     }
+  },
+  async created() {
+    const response = await axios.get("http://localhost:3000/people")
+    this.people = response.data
   }
 }
 </script>
