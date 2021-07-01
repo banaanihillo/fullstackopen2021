@@ -27,15 +27,17 @@ export default {
     }
   },
   methods: {
-    addPerson(input) {
+    async addPerson(input) {
       if (this.people.find((person) => person.name === input.name)) {
         alert(`${input.name} already exists.`)
       } else {
+        const response = await axios.post(
+          "http://localhost:3000/people",
+          input
+        )
         this.people = [
           ...this.people,
-          {
-            ...input
-          }
+          response.data
         ]
       }
     },
