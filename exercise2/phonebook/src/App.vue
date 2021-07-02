@@ -11,7 +11,10 @@
 import Phonebook from './components/Phonebook.vue'
 import AddPerson from "./components/AddPerson.vue"
 import Search from "./components/Search.vue"
-import axios from "axios"
+import {
+  addPerson,
+  getNotes
+} from "./services/personService.js"
 
 export default {
   name: 'App',
@@ -31,13 +34,10 @@ export default {
       if (this.people.find((person) => person.name === input.name)) {
         alert(`${input.name} already exists.`)
       } else {
-        const response = await axios.post(
-          "http://localhost:3000/people",
-          input
-        )
+        const addedPerson = await addPerson(input)
         this.people = [
           ...this.people,
-          response.data
+          addedPerson
         ]
       }
     },
@@ -59,8 +59,7 @@ export default {
     }
   },
   async created() {
-    const response = await axios.get("http://localhost:3000/people")
-    this.people = response.data
+    this.people = await getNotes()
   }
 }
 </script>
