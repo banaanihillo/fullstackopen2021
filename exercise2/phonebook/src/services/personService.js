@@ -13,3 +13,13 @@ export const addPerson = async (input) => {
   )
   return response.data
 }
+
+export const deletePerson = async (id) => {
+  try {
+    await axios.delete(
+      `${baseAddress}/${id}`
+    )
+  } catch (error) {
+    return `Deletion of ${id} unsuccessful: ${error}`
+  }
+}

@@ -2,8 +2,11 @@
 <span>
   <h1> Phonebook </h1>
   <Search @search-people="searchPeople" />
-  <Phonebook :filteredPeople="filteredPeople" />
-  <AddPerson @add-person="addPerson" />
+  <Phonebook
+    :filteredPeople="filteredPeople"
+    @remove-person="removePerson"
+  />
+  <AddPerson @add-new-person="addNewPerson" />
 </span>
 </template>
 
@@ -13,7 +16,8 @@ import AddPerson from "./components/AddPerson.vue"
 import Search from "./components/Search.vue"
 import {
   addPerson,
-  getNotes
+  getNotes,
+  deletePerson
 } from "./services/personService.js"
 
 export default {
@@ -30,7 +34,7 @@ export default {
     }
   },
   methods: {
-    async addPerson(input) {
+    async addNewPerson(input) {
       if (this.people.find((person) => person.name === input.name)) {
         alert(`${input.name} already exists.`)
       } else {
@@ -43,6 +47,12 @@ export default {
     },
     searchPeople(searchQuery) {
       this.searchQuery = searchQuery
+    },
+    async removePerson(id) {
+      await deletePerson(id)
+      this.people = this.people.filter((person) => {
+        return (person.id !== id)
+      })
     }
   },
   computed: {
