@@ -5,6 +5,7 @@
     v-if="message"
     :message="message"
     @dismiss-message="dismissMessage"
+    :error-message="errorMessage"
   />
   <Search @search-people="searchPeople" />
   <Phonebook
@@ -40,16 +41,22 @@ export default {
     return {
       people: [],
       searchQuery: "",
-      message: null
+      message: null,
+      errorMessage: false
     }
   },
   methods: {
-    setMessage(message, timeoutDuration) {
+    setMessage(message, timeoutDuration, errorMessage=false) {
       this.message = message
+      this.errorMessage = errorMessage
       setTimeout(() => {
         this.message = null
+        this.errorMessage = false
       },
       timeoutDuration)
+    },
+    setErrorMessage(message, timeoutDuration) {
+      this.setMessage(message, timeoutDuration, true)
     },
     async submitPerson(input) {
       const existingPerson =  this.people.find((person) => {
@@ -60,22 +67,26 @@ export default {
           ${input.name} already exists.
           Would you like to replace the old number?
         `)) {
-          const updatedPerson = await updateNumber(
-            existingPerson.id,
-            input.number
-          )
-          this.people = this.people.map((person) => {
-            return (
-              person.id === updatedPerson.id
-                ? updatedPerson
-                : person
+          try {
+            const updatedPerson = await updateNumber(
+              existingPerson.id,
+              input.number
             )
-          })
-          this.setMessage(`
-            Successfully updated ${updatedPerson.name}.
-            New number: ${updatedPerson.number}
-          `,
-          10000)
+            this.people = this.people.map((person) => {
+              return (
+                person.id === updatedPerson.id
+                  ? updatedPerson
+                  : person
+              )
+            })
+            this.setMessage(`
+              Successfully updated ${updatedPerson.name}.
+              New number: ${updatedPerson.number}
+            `,
+            4000)
+          } catch (error) {
+            this.setErrorMessage(error.message, 6000)
+          }
         }
       } else {
         const addedPerson = await addPerson(input)
