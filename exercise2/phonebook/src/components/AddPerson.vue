@@ -39,7 +39,7 @@ export default {
   methods: {
     onSubmit() {
       this.$emit(
-        "add-new-person",
+        "submit-person",
         {...this.input}
       )
       this.input = {
