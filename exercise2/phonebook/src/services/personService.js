@@ -23,3 +23,13 @@ export const deletePerson = async (id) => {
     return `Deletion of ${id} unsuccessful: ${error}`
   }
 }
+
+export const updateNumber = async (id, number) => {
+  const response = await axios.patch(
+    `${baseAddress}/${id}`,
+    {
+      number
+    }
+  )
+  return response.data
+}

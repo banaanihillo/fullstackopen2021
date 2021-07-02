@@ -6,7 +6,7 @@
     :filteredPeople="filteredPeople"
     @remove-person="removePerson"
   />
-  <AddPerson @add-new-person="addNewPerson" />
+  <AddPerson @submit-person="submitPerson" />
 </span>
 </template>
 
@@ -17,7 +17,8 @@ import Search from "./components/Search.vue"
 import {
   addPerson,
   getNotes,
-  deletePerson
+  deletePerson,
+  updateNumber
 } from "./services/personService.js"
 
 export default {
@@ -34,9 +35,27 @@ export default {
     }
   },
   methods: {
-    async addNewPerson(input) {
-      if (this.people.find((person) => person.name === input.name)) {
-        alert(`${input.name} already exists.`)
+    async submitPerson(input) {
+      const existingPerson =  this.people.find((person) => {
+        return person.name === input.name
+      })
+      if (existingPerson) {
+        if (confirm(`
+          ${input.name} already exists.
+          Would you like to replace the old number?
+        `)) {
+          const updatedPerson = await updateNumber(
+            existingPerson.id,
+            input.number
+          )
+          this.people = this.people.map((person) => {
+            return (
+              person.id === updatedPerson.id
+                ? updatedPerson
+                : person
+            )
+          })
+        }
       } else {
         const addedPerson = await addPerson(input)
         this.people = [
