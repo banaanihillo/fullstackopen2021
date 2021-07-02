@@ -1,7 +1,7 @@
 <template>
 <p
   class="notification"
-  :class="{error: error}"
+  :class="{error: errorMessage}"
 >
   {{message}} <br />
   <button @click="dismissMessage" ref="dismiss">
@@ -14,10 +14,7 @@
 export default {
   props: {
     message: String,
-    error: {
-      type: String,
-      required: false
-    }
+    errorMessage: Boolean
   },
   methods: {
     dismissMessage() {
