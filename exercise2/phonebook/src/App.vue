@@ -1,6 +1,11 @@
 <template>
 <span>
   <h1> Phonebook </h1>
+  <Notification
+    v-if="message"
+    :message="message"
+    @dismiss-message="dismissMessage"
+  />
   <Search @search-people="searchPeople" />
   <Phonebook
     :filteredPeople="filteredPeople"
@@ -14,6 +19,8 @@
 import Phonebook from './components/Phonebook.vue'
 import AddPerson from "./components/AddPerson.vue"
 import Search from "./components/Search.vue"
+import Notification from "./components/Notification.vue"
+
 import {
   addPerson,
   getNotes,
@@ -26,15 +33,24 @@ export default {
   components: {
     Phonebook,
     AddPerson,
-    Search
+    Search,
+    Notification
   },
   data() {
     return {
       people: [],
-      searchQuery: ""
+      searchQuery: "",
+      message: null
     }
   },
   methods: {
+    setMessage(message, timeoutDuration) {
+      this.message = message
+      setTimeout(() => {
+        this.message = null
+      },
+      timeoutDuration)
+    },
     async submitPerson(input) {
       const existingPerson =  this.people.find((person) => {
         return person.name === input.name
@@ -55,6 +71,11 @@ export default {
                 : person
             )
           })
+          this.setMessage(`
+            Successfully updated ${updatedPerson.name}.
+            New number: ${updatedPerson.number}
+          `,
+          10000)
         }
       } else {
         const addedPerson = await addPerson(input)
@@ -62,16 +83,35 @@ export default {
           ...this.people,
           addedPerson
         ]
+        this.setMessage(
+          `Successfully added ${addedPerson.name}.`,
+          3000
+        )
       }
     },
     searchPeople(searchQuery) {
       this.searchQuery = searchQuery
     },
     async removePerson(id) {
-      await deletePerson(id)
-      this.people = this.people.filter((person) => {
-        return (person.id !== id)
-      })
+      try {
+        await deletePerson(id)
+        this.people = this.people.filter((person) => {
+          return (person.id !== id)
+        })
+        this.setMessage(
+          `Successfully deleted ${id}.`,
+          3000
+        )
+      } catch (error) {
+        this.setMessage(error, 6000)
+      }
+    },
+    dismissMessage() {
+      this.message = null
+      // Focus is implicitly returned to the containing span
+      // If the user just removed a name, it makes sense, right
+      // It could also re-focus on the input on submission?
+      // Perhaps off-topic enough to leave it as it is
     }
   },
   computed: {
