@@ -51,6 +51,25 @@ app.delete("/api/people/:id", (request, response) => {
   response.status(204).end()
 })
 
+app.post("/api/people", (request, response) => {
+  if (!request.body.name || !request.body.number) {
+    return response.status(400).json({
+      error: "Name and number are required."
+    })
+  }
+
+  const newPerson = {
+    name: request.body.name,
+    number: request.body.number,
+    id: `${Math.floor(Math.random() * 900600)} bananas`
+  }
+  dummyPeople = [
+    ...dummyPeople,
+    newPerson
+  ]
+  response.send(dummyPeople)
+})
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
