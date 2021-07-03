@@ -7,12 +7,12 @@ const dummyPeople = [
     id: "ahahahhaahghahahahahhhhhhhhhhaaaaaaaaa",
     name: "Banana Hillo",
     number: "1-800-BHLL"
-  }/* ,
+  },
   {
-    id: "a7a7a7a7",
+    id: "a",
     name: "Hillo Banaan",
     number: "6-HLL-BBNN"
-  } */
+  }
 ]
 
 app.get("/api/people", (_request, response) => {
@@ -30,6 +30,18 @@ app.get("/info", (_request, response) => {
       Observation date: ${new Date().toISOString()}
     </p>
   `)
+})
+
+app.get("/api/people/:id", (request, response) => {
+  const dummyPerson = dummyPeople.find((person) => {
+    return person.id === request.params.id
+  })
+  if (!dummyPerson) {
+    return response.status(404).json({
+      error: `No people found with ID ${request.params.id}.`
+    })
+  }
+  response.send(dummyPerson)
 })
 
 const PORT = process.env.PORT || 3001
