@@ -58,6 +58,15 @@ app.post("/api/people", (request, response) => {
     })
   }
 
+  // can people have duplicate numbers though? apparently they can
+  if (dummyPeople.find((person) => {
+    return person.name === request.body.name
+  })) {
+    return response.status(400).json({
+      error: `${request.body.name} already exists.`
+    })
+  }
+
   const newPerson = {
     name: request.body.name,
     number: request.body.number,
