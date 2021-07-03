@@ -1,6 +1,8 @@
 const express = require("express")
+const morgan = require("morgan")
 const app = express()
 app.use(express.json())
+app.use(morgan("tiny"))
 
 let dummyPeople = [
   {
@@ -78,6 +80,13 @@ app.post("/api/people", (request, response) => {
   ]
   response.send(dummyPeople)
 })
+
+const notFound = (request, response) => {
+  response.status(404).send({
+    error: `No such address found: ${request.url}`
+  })
+}
+app.use(notFound)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
