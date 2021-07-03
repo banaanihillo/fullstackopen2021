@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 app.use(express.json())
 
-const dummyPeople = [
+let dummyPeople = [
   {
     id: "ahahahhaahghahahahahhhhhhhhhhaaaaaaaaa",
     name: "Banana Hillo",
@@ -42,6 +42,13 @@ app.get("/api/people/:id", (request, response) => {
     })
   }
   response.send(dummyPerson)
+})
+
+app.delete("/api/people/:id", (request, response) => {
+  dummyPeople = dummyPeople.filter((person) => {
+    return person.id !== request.params.id
+  })
+  response.status(204).end()
 })
 
 const PORT = process.env.PORT || 3001
