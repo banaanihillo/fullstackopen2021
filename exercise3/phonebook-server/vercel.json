@@ -15,12 +15,8 @@
   ],
   "rewrites": [
     {
-      "source": "/api/people*",
-      "destination": "index.js"
-    },
-    {
-      "source": "/.*",
-      "destination": "dist"
+      "source": "/(.*)",
+      "destination": "dist/index.html"
     }
   ]
 }
