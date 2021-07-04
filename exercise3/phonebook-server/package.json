@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "nodemon": "nodemon index.js"
+    "nodemon": "nodemon index.js",
+    "buildComment": "Remove the current build directory",
+    "buildCommentTwo": "Navigate to the front end phonebook directory",
+    "buildCommentThree": "Create a production build and copy it",
+    "buildCommentFour": "Paste the build into the back end directory",
+    "build": "rm -rf dist && cd ../../exercise2/phonebook && npm run build && cp -r dist ../../exercise3/phonebook-server",
+    "buildCommentFive": "Used as the Netlify 'build' command"
   },
   "author": "banaanihillo",
   "license": "MIT",
