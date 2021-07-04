@@ -6,8 +6,17 @@
       "use": "@vercel/node"
     },
     {
-      "src": "dist/**",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/.*",
+      "destination": "index.js"
     }
   ]
 }
