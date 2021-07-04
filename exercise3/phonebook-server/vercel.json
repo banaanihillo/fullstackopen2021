@@ -13,10 +13,14 @@
       }
     }
   ],
-  "redirects": [
+  "rewrites": [
+    {
+      "source": "/api/people*",
+      "destination": "index.js"
+    },
     {
       "source": "/.*",
-      "destination": "index.js"
+      "destination": "dist"
     }
   ]
 }
