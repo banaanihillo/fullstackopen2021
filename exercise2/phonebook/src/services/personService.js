@@ -1,8 +1,8 @@
 import axios from "axios"
-const baseAddress = "http://localhost:3000/people"
+const baseAddress = "/api/people"
 
 export const getNotes = async () => {
-  const response = await axios.get("http://localhost:3000/people")
+  const response = await axios.get(baseAddress)
   return response.data
 }
 

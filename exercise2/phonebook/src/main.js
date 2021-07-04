@@ -8,12 +8,12 @@ new Vue({
 }).$mount('#app')
 
 // Clear the console on reload
-if (module.hot) {
+if (module.hot && process.env.NODE_ENV !== "production") {
   module.hot.accept()
 
   module.hot.addStatusHandler((status) => {
     if (status === "prepare") {
-      console.clear()
+      window.console.clear()
     }
   })
 }
