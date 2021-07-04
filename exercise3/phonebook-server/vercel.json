@@ -8,12 +8,9 @@
   ],
   "redirects": [
     {
-      "source": "/api/people",
+      "source": "/.*",
       "destination": "index.js"
-    },
-    {
-      "source": "/",
-      "destination": "./dist"
+      
     }
   ]
 }
