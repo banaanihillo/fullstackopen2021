@@ -48,14 +48,18 @@ app.get("/info", (_request, response) => {
   `)
 })
 
-app.get("/api/people/:id", async (request, response) => {
-  const person = await Person.findById(request.params.id)
-  if (!person) {
-    return response.status(404).json({
-      error: `No people found with ID ${request.params.id}.`
-    })
+app.get("/api/people/:id", async (request, response, next) => {
+  try {
+    const person = await Person.findById(request.params.id)
+    if (!person) {
+      return response.status(404).json({
+        error: `No people found with ID ${request.params.id}.`
+      })
+    }
+    response.json(person)
+  } catch (error) {
+    return next(error)
   }
-  response.json(person)
 })
 
 app.delete("/api/people/:id", async (request, response) => {
@@ -94,6 +98,17 @@ const notFound = (request, response) => {
   })
 }
 app.use(notFound)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === "CastError") {
+    return response.status(400).send({
+      error: `Malformed ID ${request.params.id}. ${error}`
+    })
+  }
+  next(error)
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
