@@ -1,6 +1,10 @@
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
+const connectToDatabase = require("./database")
+connectToDatabase()
+const Person = require("./models/personModel")
+
 const app = express()
 app.use(express.json())
 app.use(cors())
@@ -21,21 +25,14 @@ app.use(morgan((tokens, request, response) => {
   ].join("  ")
 }))
 
-let dummyPeople = [
-  {
-    id: "ahahahhaahghahahahahhhhhhhhhhaaaaaaaaa",
-    name: "Banana Hillo",
-    number: "1-800-BHLL"
-  },
-  {
-    id: "a",
-    name: "Hillo Banaan",
-    number: "6-HLL-BBNN"
-  }
-]
+
 
 app.get("/api/people", (_request, response) => {
-  response.send(dummyPeople)
+  Person
+    .find({})
+    .then((people) => {
+      response.json(people)
+    })
 })
 
 app.get("/info", (_request, response) => {
@@ -51,26 +48,22 @@ app.get("/info", (_request, response) => {
   `)
 })
 
-app.get("/api/people/:id", (request, response) => {
-  const dummyPerson = dummyPeople.find((person) => {
-    return person.id === request.params.id
-  })
-  if (!dummyPerson) {
+app.get("/api/people/:id", async (request, response) => {
+  const person = await Person.findById(request.params.id)
+  if (!person) {
     return response.status(404).json({
       error: `No people found with ID ${request.params.id}.`
     })
   }
-  response.send(dummyPerson)
+  response.json(person)
 })
 
-app.delete("/api/people/:id", (request, response) => {
-  dummyPeople = dummyPeople.filter((person) => {
-    return person.id !== request.params.id
-  })
+app.delete("/api/people/:id", async (request, response) => {
+  await Person.findByIdAndRemove(request.params.id)
   response.status(204).end()
 })
 
-app.post("/api/people", (request, response) => {
+app.post("/api/people", async (request, response) => {
   if (!request.body.name || !request.body.number) {
     return response.status(400).json({
       error: "Name and number are required."
@@ -78,24 +71,21 @@ app.post("/api/people", (request, response) => {
   }
 
   // can people have duplicate numbers though? apparently they can
-  if (dummyPeople.find((person) => {
-    return person.name === request.body.name
-  })) {
+  const alreadyExists = await Person.findOne({
+    name: request.body.name
+  })
+  if (alreadyExists) {
     return response.status(400).json({
       error: `${request.body.name} already exists.`
     })
   }
 
-  const newPerson = {
+  const newPerson = new Person({
     name: request.body.name,
-    number: request.body.number,
-    id: `${Math.floor(Math.random() * 900600)} bananas`
-  }
-  dummyPeople = [
-    ...dummyPeople,
-    newPerson
-  ]
-  response.send(newPerson)
+    number: request.body.number
+  })
+  const savedPerson = await newPerson.save()
+  response.json(savedPerson)
 })
 
 const notFound = (request, response) => {
