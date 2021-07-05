@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/people",
-      "destination": "index.js"
-    }
-  ]
-}
