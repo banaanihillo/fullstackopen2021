@@ -35,10 +35,11 @@ app.get("/api/people", (_request, response) => {
     })
 })
 
-app.get("/info", (_request, response) => {
+app.get("/info", async (_request, response) => {
+  const people = await Person.find({})
   response.send(`
-    <p> The phonebook contains ${dummyPeople.length} ${
-      dummyPeople.length === 1
+    <p> The phonebook contains ${people.length} ${
+      people.length === 1
         ? "person"
         : "people"
     }. </p>
