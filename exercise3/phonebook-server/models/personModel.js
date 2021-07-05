@@ -6,7 +6,8 @@ let personSchema = new mongoose.Schema({
 })
 personSchema.set("toJSON", {
   transform: (_document, returnedObject) => {
-    returnedObject._id = returnedObject._id.toString()
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
     delete returnedObject.__v
   }
 })
