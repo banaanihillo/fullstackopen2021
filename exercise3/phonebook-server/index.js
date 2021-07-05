@@ -95,7 +95,7 @@ app.post("/api/people", (request, response) => {
     ...dummyPeople,
     newPerson
   ]
-  response.send(dummyPeople)
+  response.send(newPerson)
 })
 
 const notFound = (request, response) => {
