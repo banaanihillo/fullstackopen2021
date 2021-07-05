@@ -92,6 +92,24 @@ app.post("/api/people", async (request, response) => {
   response.json(savedPerson)
 })
 
+app.patch("/api/people/:id", async (request, response) => {
+  if (!request.body.number) {
+    return response.status(400).json({
+      error: "No number replacement given."
+    })
+  }
+  const updatedPerson = await Person.findByIdAndUpdate(
+    request.params.id,
+    {
+      number: request.body.number
+    },
+    {
+      new: true
+    }
+  )
+  response.json(updatedPerson)
+})
+
 const notFound = (request, response) => {
   response.status(404).send({
     error: `No such address found: ${request.url}`
