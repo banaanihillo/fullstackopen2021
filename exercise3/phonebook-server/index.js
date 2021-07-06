@@ -81,22 +81,28 @@ app.post("/api/people", async (request, response, next) => {
   }
 })
 
-app.patch("/api/people/:id", async (request, response) => {
+app.patch("/api/people/:id", async (request, response, next) => {
   if (!request.body.number) {
     return response.status(400).json({
       error: "No number replacement given."
     })
   }
-  const updatedPerson = await Person.findByIdAndUpdate(
-    request.params.id,
-    {
-      number: request.body.number
-    },
-    {
-      new: true
-    }
-  )
-  response.json(updatedPerson)
+  try {
+    const updatedPerson = await Person.findByIdAndUpdate(
+      request.params.id,
+      {
+        number: request.body.number
+      },
+      {
+        new: true,
+        runValidators: true,
+        context: "query"
+      }
+    )
+    response.json(updatedPerson)
+  } catch (error) {
+    return next(error)
+  }
 })
 
 const notFound = (request, response) => {
