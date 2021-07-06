@@ -68,29 +68,17 @@ app.delete("/api/people/:id", async (request, response) => {
   response.status(204).end()
 })
 
-app.post("/api/people", async (request, response) => {
-  if (!request.body.name || !request.body.number) {
-    return response.status(400).json({
-      error: "Name and number are required."
+app.post("/api/people", async (request, response, next) => {
+  try {
+    const newPerson = new Person({
+      name: request.body.name,
+      number: request.body.number
     })
+    const savedPerson = await newPerson.save()
+    response.json(savedPerson)
+  } catch (error) {
+    return next(error)
   }
-
-  // can people have duplicate numbers though? apparently they can
-  const alreadyExists = await Person.findOne({
-    name: request.body.name
-  })
-  if (alreadyExists) {
-    return response.status(400).json({
-      error: `${request.body.name} already exists.`
-    })
-  }
-
-  const newPerson = new Person({
-    name: request.body.name,
-    number: request.body.number
-  })
-  const savedPerson = await newPerson.save()
-  response.json(savedPerson)
 })
 
 app.patch("/api/people/:id", async (request, response) => {
@@ -123,6 +111,10 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === "CastError") {
     return response.status(400).send({
       error: `Malformed ID ${request.params.id}. ${error}`
+    })
+  } else if (error.name === "ValidationError") {
+    return response.status(400).send({
+      error: error.message
     })
   }
   next(error)

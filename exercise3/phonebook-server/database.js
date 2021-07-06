@@ -7,7 +7,8 @@ module.exports = connectToDatabase = () => {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useFindAndModify: false,
+      useCreateIndex: true
     }
   )
   .then(() => {
