@@ -15,25 +15,21 @@ export const addPerson = async (input) => {
 }
 
 export const deletePerson = async (id) => {
-  try {
-    await axios.delete(
-      `${baseAddress}/${id}`
-    )
-  } catch (error) {
-    return `Deletion of ${id} unsuccessful: ${error}`
-  }
+
+  await axios.delete(
+    `${baseAddress}/${id}`
+  )
+  
 }
 
 export const updateNumber = async (id, number) => {
-  try {
-    const response = await axios.patch(
-      `${baseAddress}/${id}`,
-      {
-        number
-      }
-    )
-    return response.data
-  } catch (error) {
-    throw new Error(`The person ${id} no longer exists: ${error}`)
-  }
+
+  const response = await axios.patch(
+    `${baseAddress}/${id}`,
+    {
+      number
+    }
+  )
+  return response.data
+
 }

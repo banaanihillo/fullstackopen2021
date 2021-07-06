@@ -85,19 +85,23 @@ export default {
             `,
             4000)
           } catch (error) {
-            this.setErrorMessage(error.message, 6000)
+            this.setErrorMessage(error.response.data.error, 6000)
           }
         }
       } else {
-        const addedPerson = await addPerson(input)
-        this.people = [
-          ...this.people,
-          addedPerson
-        ]
-        this.setMessage(
-          `Successfully added ${addedPerson.name}.`,
-          3000
-        )
+        try {
+          const addedPerson = await addPerson(input)
+          this.people = [
+            ...this.people,
+            addedPerson
+          ]
+          this.setMessage(
+            `Successfully added ${addedPerson.name}.`,
+            3000
+          )
+        } catch (error) {
+          this.setErrorMessage(error.response.data.error, 8000)
+        }
       }
     },
     searchPeople(searchQuery) {
