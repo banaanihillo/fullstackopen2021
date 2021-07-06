@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(cors())
 app.use(express.static("dist"))
 
-morgan.token("requestBody", (request, _response) => {
+morgan.token("requestBody", (request) => {
   if (request.method === "POST") {
     return JSON.stringify(request.body)
   }
@@ -37,12 +37,15 @@ app.get("/api/people", (_request, response) => {
 
 app.get("/info", async (_request, response) => {
   const people = await Person.find({})
+  // eslint thinks this looks properly indented now :D
+  // the template string is funky anyway,
+  // so it'll have to do for now
   response.send(`
     <p> The phonebook contains ${people.length} ${
-      people.length === 1
-        ? "person"
-        : "people"
-    }. </p>
+  people.length === 1
+    ? "person"
+    : "people"
+}. </p>
     <p>
       Observation date: ${new Date().toISOString()}
     </p>

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 require("dotenv").config()
 
-module.exports = connectToDatabase = () => {
+module.exports = () => {
   mongoose.connect(
     process.env.MONGODB_URI,
     {
@@ -10,11 +10,9 @@ module.exports = connectToDatabase = () => {
       useFindAndModify: false,
       useCreateIndex: true
     }
-  )
-  .then(() => {
+  ).then(() => {
     console.log("Connection to Mongo successful.")
-  })
-  .catch((error) => {
+  }).catch((error) => {
     throw new Error(`Could not connect to Mongo. ${error}`)
   })
 }

@@ -42,13 +42,14 @@ if (process.argv.length === 4) {
       mongoose.connection.close()
     })
 } else {
-  Person.find({})
-  .then((people) => {
-    people.map((person) => {
-      console.log(person)
+  Person
+    .find({})
+    .then((people) => {
+      people.map((person) => {
+        console.log(person)
+      })
     })
-  })
-  .finally(() => {
-    mongoose.connection.close()
-  })
+    .finally(() => {
+      mongoose.connection.close()
+    })
 }
