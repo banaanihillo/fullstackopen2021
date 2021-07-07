@@ -1,8 +1,13 @@
-const dummy = (blogs) => {
-  console.log("Blogs passed in for some reason:", blogs)
-  return "Just a dummy"
+const calculateSum = (array, property) => {
+  return array.reduce((accumulator, currentValue) => {
+    return (accumulator + (currentValue[property] || currentValue))
+  }, 0)
+}
+
+const calculateUpvotes = (array) => {
+  return calculateSum(array, "upvotes")
 }
 
 module.exports = {
-  dummy
+  calculateUpvotes
 }
