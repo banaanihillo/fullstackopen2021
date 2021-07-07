@@ -43,17 +43,30 @@ const getAuthorStatistics = (blogs) => {
   return authors
 }
 
-const mostBlogs = (listOfBlogs) => {
+const mostBlogs = (blogs) => {
+  return getHighestValue(blogs, "blogs")
+}
+
+const favoriteAuthor = (blogs) => {
+  return getHighestValue(blogs, "upvotes")
+}
+
+/**
+ * @param {array} listOfBlogs
+ * @param {string} property: The author statistic value to observe
+ * @returns {object} The author with the highest such value
+ */
+const getHighestValue = (listOfBlogs, property) => {
   const authors = getAuthorStatistics(listOfBlogs)
-  const numberOfBlogs = Object.values(authors).map((author) => {
-    return author.blogs
+  const properties = Object.values(authors).map((author) => {
+    return author[property]
   })
-  const mostBlogsAuthored = Math.max(...numberOfBlogs)
+  const highestValue = Math.max(...properties)
   for (const [author, statistics] of Object.entries(authors)) {
-    if (statistics.blogs === mostBlogsAuthored) {
+    if (statistics[property] === highestValue) {
       return {
         author,
-        blogs: statistics.blogs
+        [property]: statistics[property]
       }
     }
   }
@@ -62,5 +75,6 @@ const mostBlogs = (listOfBlogs) => {
 module.exports = {
   calculateUpvotes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  favoriteAuthor
 }

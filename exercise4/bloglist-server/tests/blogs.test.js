@@ -87,3 +87,27 @@ describe("mostBlogs", (test) => {
     "with a parameter of one blog returns that author"
   )
 })
+
+describe("Most upvoted author", (test) => {
+  test.deepEqual(
+    blogHelper.favoriteAuthor(blogs),
+    {
+      author: "Mist of Misery",
+      upvotes: 9
+    },
+    "among several blogs is the author whose blogs have most upvotes"
+  )
+  test.is(
+    blogHelper.favoriteAuthor([]),
+    undefined,
+    "among no blogs is (not defined)"
+  )
+  test.deepEqual(
+    blogHelper.favoriteAuthor(blogs.slice(-2, -1)),
+    {
+      author: "Mist of Misery",
+      upvotes: 5
+    },
+    "with a parameter of one blog returns that blog's upvotes"
+  )
+})
