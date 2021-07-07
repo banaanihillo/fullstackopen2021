@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx ava",
     "nodemon": "nodemon index.js"
   },
   "author": "banaanihillo",
@@ -17,6 +17,7 @@
     "mongoose": "^5.13.2"
   },
   "devDependencies": {
+    "ava": "^3.15.0",
     "nodemon": "^2.0.9"
   }
 }
