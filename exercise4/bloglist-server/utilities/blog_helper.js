@@ -24,7 +24,32 @@ const favoriteBlog = (blogs) => {
   })
 }
 
+const numberOfBlogs = (blogs) => {
+  let blogCounts = {}
+  blogs.map((blog) => {
+    if (!blogCounts[blog.author]) {
+      blogCounts[blog.author] = 0
+    }
+    blogCounts[blog.author]++
+  })
+  return blogCounts
+}
+
+const mostBlogs = (listOfBlogs) => {
+  const authors = numberOfBlogs(listOfBlogs)
+  const mostBlogsAuthored = Math.max(...Object.values(authors))
+  for (const [author, blogs] of Object.entries(authors)) {
+    if (blogs === mostBlogsAuthored) {
+      return {
+        author,
+        blogs
+      }
+    }
+  }
+}
+
 module.exports = {
   calculateUpvotes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
