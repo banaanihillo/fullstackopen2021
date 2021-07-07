@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Adding Blogs with Visual Studio Code",
+  "author": "Who Knows",
+  "url": "192.168.0.1",
+  "upvotes": 0
+}
