@@ -24,25 +24,36 @@ const favoriteBlog = (blogs) => {
   })
 }
 
-const numberOfBlogs = (blogs) => {
-  let blogCounts = {}
+const getAuthorStatistics = (blogs) => {
+  let authors = {}
   blogs.map((blog) => {
-    if (!blogCounts[blog.author]) {
-      blogCounts[blog.author] = 0
+    // Optional chaining (?.) not available pre-Node v14,
+    // so handle it separately here
+    if (!authors[blog.author]) {
+      authors[blog.author] = {
+        blogs: 0,
+        upvotes: 0
+      }
     }
-    blogCounts[blog.author]++
+    authors[blog.author] = {
+      blogs: authors[blog.author].blogs + 1,
+      upvotes: authors[blog.author].upvotes + blog.upvotes
+    }
   })
-  return blogCounts
+  return authors
 }
 
 const mostBlogs = (listOfBlogs) => {
-  const authors = numberOfBlogs(listOfBlogs)
-  const mostBlogsAuthored = Math.max(...Object.values(authors))
-  for (const [author, blogs] of Object.entries(authors)) {
-    if (blogs === mostBlogsAuthored) {
+  const authors = getAuthorStatistics(listOfBlogs)
+  const numberOfBlogs = Object.values(authors).map((author) => {
+    return author.blogs
+  })
+  const mostBlogsAuthored = Math.max(...numberOfBlogs)
+  for (const [author, statistics] of Object.entries(authors)) {
+    if (statistics.blogs === mostBlogsAuthored) {
       return {
         author,
-        blogs
+        blogs: statistics.blogs
       }
     }
   }
