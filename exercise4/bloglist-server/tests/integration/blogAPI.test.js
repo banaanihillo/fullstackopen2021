@@ -10,11 +10,13 @@ const dummyBlogs = [
   {
     title: "Uhh Ohh",
     author: "Li'l Jon",
+    url: "/",
     upvotes: -1
   },
   {
     title: "Adrasteia",
     author: "Mechina",
+    url: "https://mechinamusic.bandcamp.com/",
     upvotes: 6
   }
 ]
@@ -45,6 +47,7 @@ ava.serial("Adding new blogs works", async (test) => {
   const newBlog = {
     title: "Abdul Rahman al Ghafiqi",
     author: "Almach",
+    url: "https://almach.bandcamp.com/",
     upvotes: 4
   }
   await mockAPI
@@ -61,6 +64,7 @@ ava.serial("Adding new blogs works", async (test) => {
 ava.serial("Missing title or author throws", async (test) => {
   const authorMissing = {
     title: "Yamra",
+    url: "http://almach.bandcamp.com/",
     upvotes: 2
   }
   await mockAPI
@@ -69,6 +73,7 @@ ava.serial("Missing title or author throws", async (test) => {
     .expect(400)
   const titleMissing = {
     author: "Titans Fall Harder",
+    url: "https://titansfallharder.bandcamp.com/",
     upvotes: 7
   }
   await mockAPI
@@ -119,7 +124,8 @@ ava.serial("_id is renamed into id", async (test) => {
 ava.serial("Blogs with no upvotes can be added", async (test) => {
   const newBlog = {
     author: "Humphrey's Clock",
-    title: "Euphoria of Poetry"
+    title: "Euphoria of Poetry",
+    url: "https://humphreysclock.bandcamp.com/"
   }
   const {body: addedBlog} = await mockAPI
     .post("/api/blogs")
@@ -127,4 +133,19 @@ ava.serial("Blogs with no upvotes can be added", async (test) => {
     .expect(201)
   test.is(addedBlog.upvotes, 0)
   test.not(addedBlog.upvotes, undefined)
+})
+
+ava.serial("Blogs with no address can not be added", async (test) => {
+  const addressMissing = {
+    author: "The Elysian Fields",
+    title: "Grandiosity",
+    upvotes: 2
+  }
+  await mockAPI
+    .post("/api/blogs")
+    .send(addressMissing)
+    .expect(400)
+  const blogs = await blogHelper.getBlogs()
+  const authors = blogs.map((blog) => blog.author)
+  test.true(!authors.includes("The Elysian Fields"))
 })
