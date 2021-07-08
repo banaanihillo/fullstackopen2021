@@ -1,8 +1,9 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
-const blogRouter = require("./routes/blogRouter")
 require("express-async-errors")
+const blogRouter = require("./routes/blogRouter")
+
 
 require("dotenv").config()
 const databaseAddress = (
@@ -29,28 +30,28 @@ app.use(cors())
 app.use(express.json())
 app.use("/api/blogs", blogRouter)
 
-/*
+
 const notFound = (request, response) => {
   response.status(404).send({
     error: `No such address found: ${request.url}`
   })
 }
 app.use(notFound)
-// never gets here?
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   if (error.name === "CastError") {
-    return response.status(400).send({
+    response.status(400).send({
       error: `Malformed ID ${request.params.id}. ${error}`
     })
   } else if (error.name === "ValidationError") {
-    return response.status(400).send({
+    response.status(400).send({
       error: error.message
     })
   }
   next(error)
 }
 app.use(errorHandler)
-*/
+
 
 module.exports = app
