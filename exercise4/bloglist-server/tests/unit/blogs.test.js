@@ -1,5 +1,5 @@
 const describe = require("ava")
-const blogHelper = require("../utilities/blog_helper")
+const blogHelper = require("../../utilities/blog_helper")
 
 
 const blogs = [
