@@ -61,16 +61,7 @@ ava.serial("Adding new blogs works", async (test) => {
   test.true(titles.includes("Abdul Rahman al Ghafiqi"))
 })
 
-ava.serial("Missing title or author throws", async (test) => {
-  const authorMissing = {
-    title: "Yamra",
-    url: "http://almach.bandcamp.com/",
-    upvotes: 2
-  }
-  await mockAPI
-    .post("/api/blogs")
-    .send(authorMissing)
-    .expect(400)
+ava.serial("Missing title throws", async (test) => {
   const titleMissing = {
     author: "Titans Fall Harder",
     url: "https://titansfallharder.bandcamp.com/",
@@ -82,6 +73,20 @@ ava.serial("Missing title or author throws", async (test) => {
     .expect(400)
   const response = await mockAPI.get("/api/blogs")
   test.is(response.body.length, dummyBlogs.length)
+})
+
+ava.serial("Missing author throws", async (test) => {
+  const authorMissing = {
+    title: "Yamra",
+    url: "http://almach.bandcamp.com/",
+    upvotes: 2
+  }
+  await mockAPI
+    .post("/api/blogs")
+    .send(authorMissing)
+    .expect(400)
+  const blogs = await blogHelper.getBlogs()
+  test.is(blogs.length, dummyBlogs.length)
 })
 
 ava.serial("getBlogs", async (test) => {
