@@ -115,3 +115,16 @@ ava.serial("_id is renamed into id", async (test) => {
   test.truthy(secondBlog.id)
   test.falsy(secondBlog._id)
 })
+
+ava.serial("Blogs with no upvotes can be added", async (test) => {
+  const newBlog = {
+    author: "Humphrey's Clock",
+    title: "Euphoria of Poetry"
+  }
+  const {body: addedBlog} = await mockAPI
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+  test.is(addedBlog.upvotes, 0)
+  test.not(addedBlog.upvotes, undefined)
+})
