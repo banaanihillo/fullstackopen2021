@@ -149,3 +149,17 @@ ava.serial("Blogs with no address can not be added", async (test) => {
   const authors = blogs.map((blog) => blog.author)
   test.true(!authors.includes("The Elysian Fields"))
 })
+
+ava.serial("Blog upvotes can be incremented", async (test) => {
+  const blogs = await blogHelper.getBlogs()
+  const secondBlog = blogs[1]
+  const blogToIncrement = {
+    ...secondBlog,
+    upvotes: secondBlog.upvotes + 1
+  }
+  const {body: updatedBlog} = await mockAPI
+    .patch(`/api/blogs/${secondBlog.id}`)
+    .send(blogToIncrement)
+    .expect(201)
+  test.is(updatedBlog.upvotes, secondBlog.upvotes + 1)
+})
