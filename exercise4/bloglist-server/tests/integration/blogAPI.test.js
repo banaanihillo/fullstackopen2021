@@ -106,3 +106,10 @@ ava.serial("Deletion works", async (test) => {
   test.false(authors.includes("Li'l Jon"))
   test.true(!authors.includes("Li'l Jon"))
 })
+
+ava.serial("_id is renamed into id", async (test) => {
+  const blogs = await blogHelper.getBlogs()
+  const secondBlog = blogs[1]
+  test.truthy(secondBlog.id)
+  test.falsy(secondBlog._id)
+})
