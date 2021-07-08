@@ -50,4 +50,23 @@ blogRouter.delete("/:id", async (request, response) => {
   }
 })
 
+blogRouter.patch("/:id", async (request, response) => {
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      {
+        upvotes: request.body.upvotes
+      },
+      {
+        new: true
+      }
+    )
+    response.status(201).json(updatedBlog)
+  } catch (exception) {
+    response.status(404).json({
+      error: `${request.params.id} not found. ${exception}`
+    })
+  }
+})
+
 module.exports = blogRouter
