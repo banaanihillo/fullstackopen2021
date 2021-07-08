@@ -8,11 +8,15 @@ blogRouter.get("/", async (_request, response) => {
 
 blogRouter.post("/", async (request, response) => {
   try {
-    const blog = new Blog(request.body)
+    const blogProperties = {
+      ...request.body,
+      upvotes: request.body.upvotes || 0
+    }
+    const blog = new Blog(blogProperties)
     const newBlog = await blog.save()
     response.status(201).json(newBlog)
   } catch (exception) {
-    console.error(exception)
+
     return response.status(400).json({
       error: `Title and author are required. ${exception}`
     })
