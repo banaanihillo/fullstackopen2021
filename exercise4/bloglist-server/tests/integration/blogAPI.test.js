@@ -54,6 +54,8 @@ ava.serial("Adding new blogs works", async (test) => {
   test.is(response.body.length, dummyBlogs.length + 1)
   const authors = response.body.map((blog) => blog.author)
   test.true(authors.includes("Almach"))
+  const titles = response.body.map((blog) => blog.title)
+  test.true(titles.includes("Abdul Rahman al Ghafiqi"))
 })
 
 ava.serial("Missing title or author throws", async (test) => {
