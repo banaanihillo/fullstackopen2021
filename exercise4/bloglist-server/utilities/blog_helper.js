@@ -1,3 +1,5 @@
+const Blog = require("../models/Blog")
+
 const calculateSum = (array, property) => {
   return array.reduce((accumulator, currentValue) => {
     return (accumulator + (currentValue[property] || currentValue))
@@ -72,9 +74,17 @@ const getHighestValue = (listOfBlogs, property) => {
   }
 }
 
+const getBlogs = async () => {
+  const blogs = await Blog.find({})
+  // the result looks JSON-ish, but really isn't,
+  // so just JSON-ify it for comparison's sake
+  return blogs.map((blog) => blog.toJSON())
+}
+
 module.exports = {
   calculateUpvotes,
   favoriteBlog,
   mostBlogs,
-  favoriteAuthor
+  favoriteAuthor,
+  getBlogs
 }
