@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 require("express-async-errors")
 const blogRouter = require("./routes/blogRouter")
-
+const userRouter = require("./routes/userRouter")
 
 require("dotenv").config()
 const databaseAddress = (
@@ -29,7 +29,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use("/api/blogs", blogRouter)
-
+app.use("/api/users", userRouter)
 
 const notFound = (request, response) => {
   response.status(404).send({
