@@ -1,4 +1,5 @@
 const Blog = require("../models/Blog")
+const User = require("../models/User")
 
 const calculateSum = (array, property) => {
   return array.reduce((accumulator, currentValue) => {
@@ -81,10 +82,16 @@ const getBlogs = async () => {
   return blogs.map((blog) => blog.toJSON())
 }
 
+const getUsers = async () => {
+  const users = await User.find({})
+  return users.map((user) => user.toJSON())
+}
+
 module.exports = {
   calculateUpvotes,
   favoriteBlog,
   mostBlogs,
   favoriteAuthor,
-  getBlogs
+  getBlogs,
+  getUsers
 }
