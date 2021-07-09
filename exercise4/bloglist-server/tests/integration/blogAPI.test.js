@@ -2,7 +2,7 @@ const ava = require("ava")
 const supertest = require("supertest")
 const mongoose = require("mongoose")
 const Blog = require("../../models/Blog")
-const blogHelper = require("../../utilities/blog_helper")
+const testHelper = require("../../utilities/test_helper")
 const app = require("../../app")
 const mockAPI = supertest(app)
 
@@ -71,8 +71,8 @@ ava.serial("Missing title throws", async (test) => {
     .post("/api/blogs")
     .send(titleMissing)
     .expect(400)
-  const response = await mockAPI.get("/api/blogs")
-  test.is(response.body.length, dummyBlogs.length)
+  const blogs = await testHelper.getBlogs()
+  test.is(blogs.length, dummyBlogs.length)
 })
 
 ava.serial("Missing author throws", async (test) => {
@@ -85,17 +85,17 @@ ava.serial("Missing author throws", async (test) => {
     .post("/api/blogs")
     .send(authorMissing)
     .expect(400)
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   test.is(blogs.length, dummyBlogs.length)
 })
 
 ava.serial("getBlogs", async (test) => {
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   test.is(blogs.length, dummyBlogs.length)
 })
 
 ava.serial("Get by ID works", async (test) => {
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   const firstBlog = blogs[0]
 
   const {body: blogByID} = await mockAPI
@@ -105,14 +105,14 @@ ava.serial("Get by ID works", async (test) => {
 })
 
 ava.serial("Deletion works", async (test) => {
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   const firstBlog = blogs[0]
   await mockAPI
     .delete(`/api/blogs/${firstBlog.id}`)
     // do you really need to expect a 204 though?
     // it always returns 204
     .expect(204)
-  const oneLessBlog = await blogHelper.getBlogs()
+  const oneLessBlog = await testHelper.getBlogs()
   test.is(blogs.length - 1, oneLessBlog.length)
   const authors = oneLessBlog.map((blog) => blog.author)
   test.false(authors.includes("Li'l Jon"))
@@ -120,7 +120,7 @@ ava.serial("Deletion works", async (test) => {
 })
 
 ava.serial("_id is renamed into id", async (test) => {
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   const secondBlog = blogs[1]
   test.truthy(secondBlog.id)
   test.falsy(secondBlog._id)
@@ -150,13 +150,13 @@ ava.serial("Blogs with no address can not be added", async (test) => {
     .post("/api/blogs")
     .send(addressMissing)
     .expect(400)
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   const authors = blogs.map((blog) => blog.author)
   test.true(!authors.includes("The Elysian Fields"))
 })
 
 ava.serial("Blog upvotes can be incremented", async (test) => {
-  const blogs = await blogHelper.getBlogs()
+  const blogs = await testHelper.getBlogs()
   const secondBlog = blogs[1]
   const blogToIncrement = {
     ...secondBlog,

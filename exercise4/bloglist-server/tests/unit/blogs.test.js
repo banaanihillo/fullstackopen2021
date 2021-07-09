@@ -1,5 +1,5 @@
 const describe = require("ava")
-const blogHelper = require("../../utilities/blog_helper")
+const testHelper = require("../../utilities/test_helper")
 
 
 const blogs = [
@@ -22,17 +22,17 @@ const blogs = [
 
 describe("Total upvotes", (test) => {
   test.is(
-    blogHelper.calculateUpvotes(blogs),
+    testHelper.calculateUpvotes(blogs),
     11,
     "of several blogs equals the sum of upvotes"
   )
   test.is(
-    blogHelper.calculateUpvotes([]),
+    testHelper.calculateUpvotes([]),
     0,
     "of zero blogs is zero"
   )
   test.is(
-    blogHelper.calculateUpvotes([{upvotes: 3}]),
+    testHelper.calculateUpvotes([{upvotes: 3}]),
     3,
     "of one blog equals the upvotes of that singular blog"
   )
@@ -40,7 +40,7 @@ describe("Total upvotes", (test) => {
 
 describe("Favorite blog", (test) => {
   test.deepEqual(
-    blogHelper.favoriteBlog(blogs),
+    testHelper.favoriteBlog(blogs),
     {
       title: "Within Dark Dreams",
       author: "Mist of Misery",
@@ -49,7 +49,7 @@ describe("Favorite blog", (test) => {
     "among several blogs is the most upvoted blog"
   )
   test.deepEqual(
-    blogHelper.favoriteBlog((blogs.slice(0, 1))),
+    testHelper.favoriteBlog((blogs.slice(0, 1))),
     {
       title: "Canonical string reduction",
       author: "Edsger W. Dijkstra",
@@ -58,7 +58,7 @@ describe("Favorite blog", (test) => {
     "with a parameter of just one blog is said blog"
   )
   test.is(
-    blogHelper.favoriteBlog([]),
+    testHelper.favoriteBlog([]),
     undefined,
     "among no blogs is (not found)"
   )
@@ -66,7 +66,7 @@ describe("Favorite blog", (test) => {
 
 describe("mostBlogs", (test) => {
   test.deepEqual(
-    blogHelper.mostBlogs(blogs),
+    testHelper.mostBlogs(blogs),
     {
       author: "Mist of Misery",
       blogs: 2
@@ -74,12 +74,12 @@ describe("mostBlogs", (test) => {
     "among several blogs returns the author with the most blogs"
   )
   test.is(
-    blogHelper.mostBlogs([]),
+    testHelper.mostBlogs([]),
     undefined,
     "among no blogs is (not defined)"
   )
   test.deepEqual(
-    blogHelper.mostBlogs(blogs.slice(-1)),
+    testHelper.mostBlogs(blogs.slice(-1)),
     {
       author: "Mist of Misery",
       blogs: 1
@@ -90,7 +90,7 @@ describe("mostBlogs", (test) => {
 
 describe("Most upvoted author", (test) => {
   test.deepEqual(
-    blogHelper.favoriteAuthor(blogs),
+    testHelper.favoriteAuthor(blogs),
     {
       author: "Mist of Misery",
       upvotes: 9
@@ -98,12 +98,12 @@ describe("Most upvoted author", (test) => {
     "among several blogs is the author whose blogs have most upvotes"
   )
   test.is(
-    blogHelper.favoriteAuthor([]),
+    testHelper.favoriteAuthor([]),
     undefined,
     "among no blogs is (not defined)"
   )
   test.deepEqual(
-    blogHelper.favoriteAuthor(blogs.slice(-2, -1)),
+    testHelper.favoriteAuthor(blogs.slice(-2, -1)),
     {
       author: "Mist of Misery",
       upvotes: 5
