@@ -3,6 +3,22 @@ const userRouter = require("express").Router()
 const User = require("../models/User")
 
 userRouter.post("/", async (request, response) => {
+  if (!request.body.password) {
+    const errorMessage = "Password input is required."
+    console.error(errorMessage)
+    return response.status(400).json({
+      error: errorMessage
+    })
+  }
+  if (request.body.password.length < 15) {
+    const errorMessage =
+      "Password too short. Consider using a password manager."
+    console.error(errorMessage)
+    return response.status(400).json({
+      error: errorMessage
+    })
+  }
+
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(
     request.body.password,
