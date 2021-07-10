@@ -1,3 +1,6 @@
+const User = require("./models/User")
+const jsonWebToken = require("jsonwebtoken")
+
 const getToken = (request) => {
   const authorization = request.get("authorization")
   if (
@@ -10,6 +13,19 @@ const getToken = (request) => {
 const tokenExtractor = (request, _response, next) => {
   const token = getToken(request)
   request.token = token
+  next()
+}
+
+const decodeToken = (token) => {
+  return jsonWebToken.verify(
+    token,
+    process.env.SECRET
+  )
+}
+const userExtractor = async (request, _response, next) => {
+  const decodedToken = decodeToken(request.token)
+  const user = await User.findById(decodedToken.id)
+  request.user = user
   next()
 }
 
@@ -46,6 +62,7 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
   tokenExtractor,
+  userExtractor,
   notFound,
   errorHandler
 }

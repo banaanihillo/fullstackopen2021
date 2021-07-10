@@ -1,14 +1,6 @@
 const blogRouter = require("express").Router()
-const Blog = require("../models/Blog")
-const User = require("../models/User")
-const jsonWebToken = require("jsonwebtoken")
-
-const decodeToken = (token) => {
-  return jsonWebToken.verify(
-    token,
-    process.env.SECRET
-  )
-}
+const Blog = require("../models/Blog") //
+const {userExtractor} = require("../customMiddleWare")
 
 blogRouter.get("/", async (_request, response) => {
   const blogs = await Blog
@@ -22,75 +14,60 @@ blogRouter.get("/", async (_request, response) => {
   response.json(blogs)
 })
 
-blogRouter.post("/", async (request, response) => {
-  const decodedToken = decodeToken(request.token)
-  if (!request.token || !decodedToken.id) {
+blogRouter.post("/", userExtractor, async (request, response) => {
+  if (!request.token || !request.user) {
     return response.status(401).json({
       error: "Invalid token."
     })
-  }
-
-  const user = await User.findById(decodedToken.id)
-  if (!user) {
-    return response.status(404).json({
-      error: "No user found?"
-    })
-  }
+  } //
 
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
     upvotes: request.body.upvotes || 0,
-    user: user.id
+    user: request.user.id
   })
   const newBlog = await blog.save()
 
-  user.blogs = [
-    ...user.blogs,
+  request.user.blogs = [
+    ...request.user.blogs,
     newBlog.id
   ]
-  await user.save()
-
-  response.status(201).json(newBlog)
-
+  await request.user.save()
+  response.status(201).json(newBlog) //
 })
 
 blogRouter.get("/:id", async (request, response) => {
-
-  const blog = await Blog.findById(request.params.id)
+  const blog = await Blog.findById(request.params.id) //
   if (!blog) {
     return response.status(404).json({
       error: `No blog found with the ID ${request.params.id}.`
     })
   }
-  response.json(blog)
-
+  response.json(blog) //
 })
 
-blogRouter.delete("/:id", async (request, response) => {
-  const decodedToken = decodeToken(request.token)
-  if (!request.token || !decodedToken.id) {
+blogRouter.delete("/:id", userExtractor, async (request, response) => {
+  if (!request.token || !request.user) {
     return response.status(401).json({
       error: "Invalid token."
     })
   }
 
   const blog = await Blog.findById(request.params.id)
-  if (blog.user.toString() !== decodedToken.id.toString()) {
+  if (blog.user.toString() !== request.user.id.toString()) {
     return response.status(401).json({
       error: "Blogs can only be removed by the creator."
     })
   }
 
   await blog.remove()
-  response.status(204).end()
-  
+  response.status(204).end() //
 })
 
 blogRouter.patch("/:id", async (request, response) => {
-
-  const updatedBlog = await Blog.findByIdAndUpdate(
+  const updatedBlog = await Blog.findByIdAndUpdate( //
     request.params.id,
     {
       upvotes: request.body.upvotes
@@ -99,8 +76,7 @@ blogRouter.patch("/:id", async (request, response) => {
       new: true
     }
   )
-  response.status(201).json(updatedBlog)
-  
+  response.status(201).json(updatedBlog) //
 })
 
 module.exports = blogRouter

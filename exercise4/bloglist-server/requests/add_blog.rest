@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJhbmFhbmloaWxsbyIsImlkIjoiNjBlOTUwMThkYjU3MjgxYzBjNzgyZGNmIiwiaWF0IjoxNjI1OTA0OTYzfQ.rLRx2W3LPBNixkqtea4tQrXTarbN0h38_DrB3bdjaYk
 
 {
-  "title": "Tokenization",
+  "title": "User extraction",
   "author": "Middle Ware",
   "url": "192.168.0.1"
 }
