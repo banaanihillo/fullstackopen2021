@@ -2,7 +2,14 @@ const blogRouter = require("express").Router()
 const Blog = require("../models/Blog")
 const User = require("../models/User")
 const jsonWebToken = require("jsonwebtoken")
-//
+
+const decodeToken = (token) => {
+  return jsonWebToken.verify(
+    token,
+    process.env.SECRET
+  )
+}
+
 blogRouter.get("/", async (_request, response) => {
   const blogs = await Blog
     .find({})
@@ -16,11 +23,7 @@ blogRouter.get("/", async (_request, response) => {
 })
 
 blogRouter.post("/", async (request, response) => {
-
-  const decodedToken = jsonWebToken.verify(
-    request.token,
-    process.env.SECRET
-  )
+  const decodedToken = decodeToken(request.token)
   if (!request.token || !decodedToken.id) {
     return response.status(401).json({
       error: "Invalid token."
@@ -66,10 +69,23 @@ blogRouter.get("/:id", async (request, response) => {
 })
 
 blogRouter.delete("/:id", async (request, response) => {
+  const decodedToken = decodeToken(request.token)
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({
+      error: "Invalid token."
+    })
+  }
 
-  await Blog.findByIdAndRemove(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  if (blog.user.toString() !== decodedToken.id.toString()) {
+    return response.status(401).json({
+      error: "Blogs can only be removed by the creator."
+    })
+  }
+
+  await blog.remove()
   response.status(204).end()
-
+  
 })
 
 blogRouter.patch("/:id", async (request, response) => {
