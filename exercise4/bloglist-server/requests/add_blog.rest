@@ -1,9 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJhbmFhbmloaWxsbyIsImlkIjoiNjBlOTUwMThkYjU3MjgxYzBjNzgyZGNmIiwiaWF0IjoxNjI1OTA0OTYzfQ.rLRx2W3LPBNixkqtea4tQrXTarbN0h38_DrB3bdjaYk
 
 {
-  "title": "Adding Blogs with Visual Studio Code",
-  "author": "Who Knows",
-  "url": "192.168.0.1",
-  "upvotes": 0
+  "title": "Users and Blogs",
+  "author": "Snakes and Ladders",
+  "url": "192.168.0.1"
 }
