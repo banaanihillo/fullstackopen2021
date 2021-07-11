@@ -7,7 +7,10 @@
     </span>
     <span v-else>
       <p>
-        Logged in as {{loggedIn.userName}}.
+        Logged in as {{loggedIn.userName}}. <br />
+        <button @click="logOut">
+          Log out
+        </button>
       </p>
       <h2> List of blogs </h2>
       <ul v-for="blog in blogs" :key="blog.id">
@@ -38,16 +41,29 @@ export default {
   async created() {
     const blogs = await blogService.getBlogs()
     this.blogs = blogs
+    const loggedIn = localStorage.getItem("loggedIn")
+    if (loggedIn) {
+      const user = JSON.parse(loggedIn)
+      this.loggedIn = user
+    }
   },
   methods: {
     async logIn(credentials) {
       try {
         const user = await logInService.logIn(credentials)
         this.loggedIn = user
+        localStorage.setItem(
+          "loggedIn",
+          JSON.stringify(user)
+        )
       } catch (exception) {
         // set error message, and a timeout and stuff
         console.error(exception)
       }
+    },
+    logOut() {
+      this.loggedIn = null
+      localStorage.removeItem("loggedIn")
     }
   }
 }
@@ -75,10 +91,18 @@ button {
   background-color: plum;
 }
 
+button {
+  margin-top: 1em;
+}
+
 .input {
   display: flex;
   justify-content: center;
-  margin-bottom: 1em;
+  margin: 1em;
+}
+
+.input:last-of-type {
+  margin-bottom: 0;
 }
 
 .input label {
