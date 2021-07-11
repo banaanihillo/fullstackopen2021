@@ -1,6 +1,12 @@
 <template>
   <div>
     <h1> Blogs </h1>
+    <Notification
+      v-if="message"
+      :message="message"
+      :error-message="errorMessage"
+      @dismiss-message="dismissMessage"
+    />
     <span v-if="!loggedIn">
       <h2> Log in </h2>
       <LogIn @log-in="logIn" />
@@ -28,18 +34,22 @@ import logInService from "./services/logInService"
 import Blog from "./components/Blog.vue"
 import LogIn from "./components/LogIn.vue"
 import AddBlog from "./components/AddBlog.vue"
+import Notification from "./components/Notification.vue"
 
 export default {
   name: 'App',
   components: {
     Blog,
     LogIn,
-    AddBlog
+    AddBlog,
+    Notification
   },
   data() {
     return {
       blogs: [],
-      loggedIn: null
+      loggedIn: null,
+      message: null,
+      errorMessage: false
     }
   },
   async created() {
@@ -61,15 +71,25 @@ export default {
           "loggedIn",
           JSON.stringify(user)
         )
-      } catch (exception) {
-        // set error message, and a timeout and stuff
-        console.error(exception)
+        this.setMessage(
+          `Welcome, ${user.userName}.`,
+          2000
+        )
+      } catch (error) {
+        this.setErrorMessage(
+          error.message,
+          6000
+        )
       }
     },
     logOut() {
       this.loggedIn = null
       blogService.setToken(null)
       localStorage.removeItem("loggedIn")
+      this.setMessage(
+        "Logged out successfully.",
+        3000
+      )
     },
     async addBlog(input) {
       try {
@@ -78,9 +98,31 @@ export default {
           ...this.blogs,
           newUser
         ]
-      } catch (exception) {
-        console.error(exception)
+        this.setMessage(
+          `Successfully added ${newUser.title}, by ${newUser.author}.`,
+          5000
+        )
+      } catch (error) {
+        this.setErrorMessage(
+          error.message,
+          6000
+        )
       }
+    },
+    setMessage(message, timeoutDuration, errorMessage=false) {
+      this.message = message
+      this.errorMessage = errorMessage
+      setTimeout(() => {
+        this.message = null
+        this.errorMessage = false
+      },
+      timeoutDuration)
+    },
+    setErrorMessage(message, timeoutDuration) {
+      this.setMessage(message, timeoutDuration, true)
+    },
+    dismissMessage() {
+      this.message = null
     }
   }
 }
