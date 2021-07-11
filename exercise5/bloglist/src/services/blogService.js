@@ -13,17 +13,22 @@ const getBlogs = async () => {
 }
 
 const addBlog = async (blogInput) => {
-  const configuration = {
-    headers: {
-      Authorization: _token
+  try {
+    const configuration = {
+      headers: {
+        Authorization: _token
+      }
     }
+    const response = await axios.post(
+      baseURL,
+      blogInput,
+      configuration
+    )
+    return response.data
+  } catch (exception) {
+    // this should be impossible to trigger from the browser though
+    throw new Error(exception.response.data.error)
   }
-  const response = await axios.post(
-    baseURL,
-    blogInput,
-    configuration
-  )
-  return response.data
 }
 
 export default {
