@@ -12,6 +12,8 @@
           Log out
         </button>
       </p>
+      <h2> Add blog </h2>
+      <AddBlog @add-blog="addBlog" />
       <h2> List of blogs </h2>
       <ul v-for="blog in blogs" :key="blog.id">
         <Blog :blog="blog" />
@@ -25,12 +27,14 @@ import blogService from "./services/blogService"
 import logInService from "./services/logInService"
 import Blog from "./components/Blog.vue"
 import LogIn from "./components/LogIn.vue"
+import AddBlog from "./components/AddBlog.vue"
 
 export default {
   name: 'App',
   components: {
     Blog,
-    LogIn
+    LogIn,
+    AddBlog
   },
   data() {
     return {
@@ -52,6 +56,7 @@ export default {
       try {
         const user = await logInService.logIn(credentials)
         this.loggedIn = user
+        blogService.setToken(user.token)
         localStorage.setItem(
           "loggedIn",
           JSON.stringify(user)
@@ -63,7 +68,19 @@ export default {
     },
     logOut() {
       this.loggedIn = null
+      blogService.setToken(null)
       localStorage.removeItem("loggedIn")
+    },
+    async addBlog(input) {
+      try {
+        const newUser = await blogService.addBlog(input)
+        this.blogs = [
+          ...this.blogs,
+          newUser
+        ]
+      } catch (exception) {
+        console.error(exception)
+      }
     }
   }
 }
