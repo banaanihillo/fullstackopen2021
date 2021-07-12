@@ -34,7 +34,12 @@
       </Togglable>
       <h2> List of blogs </h2>
       <ul v-for="blog in sortedBlogs" :key="blog.id">
-        <Blog :blog="blog" @add-upvote="addUpvote" />
+        <Blog
+          :blog="blog"
+          @add-upvote="addUpvote"
+          :loggedIn="loggedIn"
+          @delete-blog="deleteBlog"
+        />
       </ul>
     </span>
   </div>
@@ -165,6 +170,21 @@ export default {
             : blog
         )
       })
+    },
+    async deleteBlog(blogID) {
+      try {
+        await blogService.deleteBlog(blogID)
+        this.blogs = this.blogs.filter((blog) => {
+          return (blog.id !== blogID)
+        })
+        this.setMessage(
+          `Successfully deleted ${blogID}.`,
+          4000
+        )
+      } catch (exception) {
+        // should not be possible to get this far from the browser
+        this.setErrorMessage(exception, 6000)
+      }
     }
   }
 }
