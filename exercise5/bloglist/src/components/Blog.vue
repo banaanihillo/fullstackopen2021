@@ -9,6 +9,14 @@
     <p>
       <a :href="blog.url"> {{blog.author}} </a>
     </p>
+
+    <p v-if="loggedIn.userName === blog.user.userName">
+      <button @click="deleteBlog" class="danger">
+        Delete
+      </button>
+      <br />
+    </p>
+
     <button @click="toggleExpandedInformation"> Collapse </button>
   </li>
   <li v-else>
@@ -21,7 +29,8 @@
 export default {
   name: "Blog",
   props: {
-    blog: Object
+    blog: Object,
+    loggedIn: Object
   },
   data() {
     return {
@@ -40,6 +49,12 @@ export default {
           upvotes: this.blog.upvotes + 1
         }
       )
+    },
+    deleteBlog() {
+      this.$emit(
+        "delete-blog",
+        this.blog.id
+      )
     }
   }
 }
@@ -53,5 +68,9 @@ li {
 
 button {
   margin-top: 0;
+}
+
+.danger {
+  background-color: lightsalmon;
 }
 </style>
