@@ -12,17 +12,20 @@ const getBlogs = async () => {
   return response.data
 }
 
+const addAuthorizationHeader = () => {
+  return {
+    headers: {
+      Authorization: _token
+    }
+  }
+}
+
 const addBlog = async (blogInput) => {
   try {
-    const configuration = {
-      headers: {
-        Authorization: _token
-      }
-    }
     const response = await axios.post(
       baseURL,
       blogInput,
-      configuration
+      addAuthorizationHeader()
     )
     return response.data
   } catch (exception) {
@@ -39,9 +42,21 @@ const addUpvote = async (blog) => {
   return response.data
 }
 
+const deleteBlog = async (blogID) => {
+  try {
+    await axios.delete(
+      `${baseURL}/${blogID}`,
+      addAuthorizationHeader()
+    )
+  } catch (exception) {
+    throw new Error(exception.response.data.error)
+  }
+}
+
 export default {
   getBlogs,
   addBlog,
   setToken,
-  addUpvote
+  addUpvote,
+  deleteBlog
 }
