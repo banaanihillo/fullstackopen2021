@@ -33,7 +33,7 @@
         <AddBlog @add-blog="addBlog" />
       </Togglable>
       <h2> List of blogs </h2>
-      <ul v-for="blog in blogs" :key="blog.id">
+      <ul v-for="blog in sortedBlogs" :key="blog.id">
         <Blog :blog="blog" @add-upvote="addUpvote" />
       </ul>
     </span>
@@ -65,6 +65,13 @@ export default {
       message: null,
       errorMessage: false,
       formVisible: false
+    }
+  },
+  computed: {
+    sortedBlogs() {
+      return [...this.blogs].sort((a, b) => {
+        return (b.upvotes - a.upvotes)
+      })
     }
   },
   async created() {
