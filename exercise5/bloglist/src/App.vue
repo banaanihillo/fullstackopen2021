@@ -9,7 +9,13 @@
     />
     <span v-if="!loggedIn">
       <h2> Log in </h2>
-      <LogIn @log-in="logIn" />
+      <Togglable
+        buttonLabel="Log in"
+        :formVisible="formVisible"
+        @toggle-visibility="toggleVisibility"
+      >
+        <LogIn @log-in="logIn" />
+      </Togglable>
     </span>
     <span v-else>
       <p>
@@ -19,7 +25,13 @@
         </button>
       </p>
       <h2> Add blog </h2>
-      <AddBlog @add-blog="addBlog" />
+      <Togglable
+        buttonLabel="Add blog"
+        :formVisible="formVisible"
+        @toggle-visibility="toggleVisibility"
+      >
+        <AddBlog @add-blog="addBlog" />
+      </Togglable>
       <h2> List of blogs </h2>
       <ul v-for="blog in blogs" :key="blog.id">
         <Blog :blog="blog" />
@@ -35,6 +47,7 @@ import Blog from "./components/Blog.vue"
 import LogIn from "./components/LogIn.vue"
 import AddBlog from "./components/AddBlog.vue"
 import Notification from "./components/Notification.vue"
+import Togglable from "./components/Togglable.vue"
 
 export default {
   name: 'App',
@@ -42,14 +55,16 @@ export default {
     Blog,
     LogIn,
     AddBlog,
-    Notification
+    Notification,
+    Togglable
   },
   data() {
     return {
       blogs: [],
       loggedIn: null,
       message: null,
-      errorMessage: false
+      errorMessage: false,
+      formVisible: false
     }
   },
   async created() {
@@ -75,6 +90,9 @@ export default {
           `Welcome, ${user.userName}.`,
           2000
         )
+        // Close the log-in form (which should not be visible anyway),
+        // and also start with the blog addition form collapsed
+        this.toggleVisibility()
       } catch (error) {
         this.setErrorMessage(
           error.message,
@@ -90,6 +108,9 @@ export default {
         "Logged out successfully.",
         3000
       )
+      // Collapse all forms,
+      // even if the blog addition form was open when the user logs out
+      this.formVisible = false
     },
     async addBlog(input) {
       try {
@@ -102,6 +123,7 @@ export default {
           `Successfully added ${newUser.title}, by ${newUser.author}.`,
           5000
         )
+        this.toggleVisibility()
       } catch (error) {
         this.setErrorMessage(
           error.message,
@@ -123,6 +145,9 @@ export default {
     },
     dismissMessage() {
       this.message = null
+    },
+    toggleVisibility() {
+      this.formVisible = !this.formVisible
     }
   }
 }
