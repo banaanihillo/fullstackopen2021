@@ -2,7 +2,7 @@
   <form @submit.prevent="addBlog">
     <div class="input">
       <label for="title-input"> Title </label>
-      <input type="text" v-model="input.title" />
+      <input type="text" v-model="input.title" ref="addBlog" />
     </div>
     <div class="input">
       <label for="author-input"> Author </label>
@@ -38,7 +38,13 @@ export default {
         author: "",
         url: ""
       }
+    },
+    focusForm() {
+      this.$refs.addBlog.focus()
     }
+  },
+  mounted() {
+    this.focusForm()
   }
 }
 </script>

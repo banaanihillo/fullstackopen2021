@@ -5,6 +5,7 @@
       <input
         type="text"
         v-model="credentials.userName"
+        ref="logIn"
       />
     </div>
     <div class="input">
@@ -38,7 +39,19 @@ export default {
         userName: "",
         password: ""
       }
+    },
+    focusForm() {
+      // Focus on the first input field when the togglable is opened
+      // - this needs to be done in these individual elements,
+      // since focusing on the slot would only focus the outer element,
+      // and not the form input itself;
+      // focus is also more complex to implement on prop update,
+      // compared to these individual components mounting
+      this.$refs.logIn.focus()
     }
+  },
+  mounted() {
+    this.focusForm()
   }
 }
 </script>
