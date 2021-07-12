@@ -34,7 +34,7 @@
       </Togglable>
       <h2> List of blogs </h2>
       <ul v-for="blog in blogs" :key="blog.id">
-        <Blog :blog="blog" />
+        <Blog :blog="blog" @add-upvote="addUpvote" />
       </ul>
     </span>
   </div>
@@ -148,6 +148,16 @@ export default {
     },
     toggleVisibility() {
       this.formVisible = !this.formVisible
+    },
+    async addUpvote(blogToUpvote) {
+      const upvotedBlog = await blogService.addUpvote(blogToUpvote)
+      this.blogs = this.blogs.map((blog) => {
+        return (
+          blog.id === upvotedBlog.id
+            ? upvotedBlog
+            : blog
+        )
+      })
     }
   }
 }

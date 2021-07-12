@@ -3,8 +3,8 @@
     <p> {{blog.title}} </p>
     <p> {{blog.author}} </p>
     <p>
-      {{blog.upvotes}} upvotes
-      <button @click="doNothing"> Upvote </button>
+      Upvotes: {{blog.upvotes}}
+      <button @click="addUpvote"> Upvote </button>
     </p>
     <p>
       <a :href="blog.url"> {{blog.author}} </a>
@@ -32,8 +32,14 @@ export default {
     toggleExpandedInformation() {
       this.expandedInformation = !this.expandedInformation
     },
-    doNothing() {
-      
+    addUpvote() {
+      this.$emit(
+        "add-upvote",
+        {
+          ...this.blog,
+          upvotes: this.blog.upvotes + 1
+        }
+      )
     }
   }
 }

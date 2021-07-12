@@ -31,8 +31,17 @@ const addBlog = async (blogInput) => {
   }
 }
 
+const addUpvote = async (blog) => {
+  const response = await axios.patch(
+    `${baseURL}/${blog.id}`,
+    blog
+  )
+  return response.data
+}
+
 export default {
   getBlogs,
   addBlog,
-  setToken
+  setToken,
+  addUpvote
 }
