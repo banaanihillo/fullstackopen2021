@@ -4,7 +4,10 @@
     <p> {{blog.author}} </p>
     <p>
       Upvotes: {{blog.upvotes}}
-      <button @click="addUpvote"> Upvote </button>
+      <button
+        @click="addUpvote"
+        class="upvote"
+      > Upvote </button>
     </p>
     <p>
       <a :href="blog.url"> {{blog.author}} </a>
@@ -17,11 +20,17 @@
       <br />
     </p>
 
-    <button @click="toggleExpandedInformation"> Collapse </button>
+    <button
+      @click="toggleExpandedInformation"
+      class="collapse"
+    > Collapse </button>
   </li>
   <li v-else>
     {{blog.title}} - by {{blog.author}}
-    <button @click="toggleExpandedInformation"> Expand </button>
+    <button
+      @click="toggleExpandedInformation"
+      class="expand"
+    > Expand </button>
   </li>
 </template>
 
