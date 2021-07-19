@@ -87,6 +87,12 @@ testGroup("When logged in", () => {
         url: "https://mouthoftheharlot.bandcamp.com",
         upvotes: 2
       })
+      cypress.addBlogAndNavigateBackHome({
+        title: "When We Share the Same Sky",
+        author: "Hylem",
+        url: "https://hylem.bandcamp.com",
+        upvotes: 6
+      })
     })
 
     test("upvote incremention works", () => {
@@ -106,7 +112,7 @@ testGroup("When logged in", () => {
         .contains("Upvotes: 3")
     })
 
-    test("Another user can not delete a blog", () => {
+    test("another user can not delete a blog", () => {
       cypress.logInAndNavigateBackHome({
         userName: "Sneaky Banana",
         password: "kinda short password"
@@ -124,7 +130,7 @@ testGroup("When logged in", () => {
         )
     })
 
-    test("Only the user who added a blog can delete it", () => {
+    test("only the user who added a blog can delete it", () => {
       cypress
         .contains("Rumination")
         .contains("Expand")
@@ -138,6 +144,18 @@ testGroup("When logged in", () => {
       cypress
         .get(".notification")
         .contains("jwt must be provided")
+    })
+
+    /**
+     * @global expect
+     */
+    test("the blogs are sorted by their upvotes", () => {
+      const chai = expect
+      cypress
+        .get("li")
+        .should(($list) => {
+          chai($list.first()).to.contain("Hylem")
+        })
     })
   })
 })
