@@ -39,6 +39,12 @@ app.use(tokenExtractor)
 app.use("/api/blogs", blogRouter)
 app.use("/api/users", userRouter)
 app.use("/api/login", loginRouter)
+
+if (process.env.NODE_ENV === "test") {
+  const testRouter = require("./routes/testRouter")
+  app.use("/api/test", testRouter)
+}
+
 app.use(notFound) //
 app.use(errorHandler) //
 
