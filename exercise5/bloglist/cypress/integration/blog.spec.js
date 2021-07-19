@@ -22,6 +22,16 @@ beforeEachTest(() => {
     testUser
   )
 
+  const anotherUser = {
+    userName: "Sneaky Banana",
+    password: "kinda short password"
+  }
+  cypress.request(
+    "POST",
+    "http://localhost:3001/api/users",
+    anotherUser
+  )
+
   cypress.visit("http://localhost:8080")
 })
 
@@ -94,6 +104,40 @@ testGroup("When logged in", () => {
         .contains("Rumination")
         .parent()
         .contains("Upvotes: 3")
+    })
+
+    test("Another user can not delete a blog", () => {
+      cypress.logInAndNavigateBackHome({
+        userName: "Sneaky Banana",
+        password: "kinda short password"
+      })
+      cypress
+        .contains("Rumination")
+        .contains("Expand")
+        .click()
+      cypress
+        .contains("Rumination")
+        .parent()
+        .should(
+          "not.contain",
+          "Delete"
+        )
+    })
+
+    test("Only the user who added a blog can delete it", () => {
+      cypress
+        .contains("Rumination")
+        .contains("Expand")
+        .click()
+      cypress
+        .contains("Rumination")
+        .parent()
+        // The presence of the button kinda verifies the test already
+        .contains("Delete")
+        .click()
+      cypress
+        .get(".notification")
+        .contains("jwt must be provided")
     })
   })
 })
