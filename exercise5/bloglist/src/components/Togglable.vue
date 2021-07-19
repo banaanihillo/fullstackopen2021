@@ -7,7 +7,7 @@
       </button>
     </span>
     <span v-else>
-      <button @click="toggleVisibility">
+      <button @click="toggleVisibility" id="togglable-button">
         {{buttonLabel}}
       </button>
     </span>

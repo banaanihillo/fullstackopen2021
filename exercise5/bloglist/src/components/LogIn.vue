@@ -6,6 +6,7 @@
         type="text"
         v-model="credentials.userName"
         ref="logIn"
+        id="user-name-input"
       />
     </div>
     <div class="input">
@@ -13,9 +14,10 @@
       <input
         type="password"
         v-model="credentials.password"
+        id="password-input"
       />
     </div>
-    <button type="submit"> Log in </button>
+    <button type="submit" id="log-in"> Log in </button>
   </form>
 </template>
 

@@ -2,15 +2,20 @@
   <form @submit.prevent="addBlog">
     <div class="input">
       <label for="title-input"> Title </label>
-      <input type="text" v-model="input.title" ref="addBlog" />
+      <input
+        type="text"
+        v-model="input.title"
+        ref="addBlog"
+        id="title-input"
+      />
     </div>
     <div class="input">
       <label for="author-input"> Author </label>
-      <input type="text" v-model="input.author" />
+      <input type="text" v-model="input.author" id="author-input" />
     </div>
     <div class="input">
       <label for="url-input"> URL </label>
-      <input type="text" v-model="input.url" />
+      <input type="text" v-model="input.url" id="url-input" />
     </div>
     <button type="submit"> Submit </button>
   </form>
