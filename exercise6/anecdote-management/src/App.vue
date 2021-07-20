@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <h1> Anecdotes </h1>
+    <h2> Add a new anecdote </h2>
+    <AddAnecdote />
+    <h2> List of anecdotes </h2>
     <ul>
       <li v-for="anecdote in anecdotes" :key="anecdote.id">
         <Anecdote :anecdote="anecdote" />
@@ -11,11 +14,13 @@
 
 <script>
 import Anecdote from "./components/Anecdote.vue"
+import AddAnecdote from "./components/AddAnecdote.vue"
 
 export default {
   name: 'App',
   components: {
-    Anecdote
+    Anecdote,
+    AddAnecdote
   },
   computed: {
     anecdotes() {
@@ -38,7 +43,8 @@ ul {
   padding-left: 0;
 }
 
-button {
+button,
+input {
   background-color: plum;
 }
 

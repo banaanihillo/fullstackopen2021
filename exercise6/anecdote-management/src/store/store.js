@@ -37,6 +37,14 @@ export default new Vuex.Store({
         )
       })
       state.anecdotes = updatedAnecdotes
+    },
+    addAnecdote(state, payload) {
+      const newAnecdote = {
+        content: payload,
+        votes: 0,
+        id: `${Math.random() * 100600700} banananananas`
+      }
+      state.anecdotes = state.anecdotes.concat(newAnecdote)
     }
   },
   actions: {
