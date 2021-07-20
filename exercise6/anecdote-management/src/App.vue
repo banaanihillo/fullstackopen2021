@@ -5,7 +5,7 @@
     <AddAnecdote />
     <h2> List of anecdotes </h2>
     <ul>
-      <li v-for="anecdote in anecdotes" :key="anecdote.id">
+      <li v-for="anecdote in sortedAnecdotes" :key="anecdote.id">
         <Anecdote :anecdote="anecdote" />
       </li>
     </ul>
@@ -23,8 +23,8 @@ export default {
     AddAnecdote
   },
   computed: {
-    anecdotes() {
-      return this.$store.state.anecdotes
+    sortedAnecdotes() {
+      return this.$store.getters.sortedAnecdotes
     }
   }
 }

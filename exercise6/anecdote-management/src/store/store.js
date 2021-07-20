@@ -52,5 +52,12 @@ export default new Vuex.Store({
   },
   modules: {
 
+  },
+  getters: {
+    sortedAnecdotes: (state) => {
+      return [...state.anecdotes].sort((a, b) => {
+        return b.votes - a.votes
+      })
+    }
   }
 })
