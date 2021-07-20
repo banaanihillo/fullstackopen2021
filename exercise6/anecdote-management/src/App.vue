@@ -4,28 +4,19 @@
     <h2> Add a new anecdote </h2>
     <AddAnecdote />
     <h2> List of anecdotes </h2>
-    <ul>
-      <li v-for="anecdote in sortedAnecdotes" :key="anecdote.id">
-        <Anecdote :anecdote="anecdote" />
-      </li>
-    </ul>
+    <AnecdoteList />
   </div>
 </template>
 
 <script>
-import Anecdote from "./components/Anecdote.vue"
+import AnecdoteList from "./components/AnecdoteList.vue"
 import AddAnecdote from "./components/AddAnecdote.vue"
 
 export default {
   name: 'App',
   components: {
-    Anecdote,
-    AddAnecdote
-  },
-  computed: {
-    sortedAnecdotes() {
-      return this.$store.getters.sortedAnecdotes
-    }
+    AddAnecdote,
+    AnecdoteList
   }
 }
 </script>
