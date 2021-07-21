@@ -18,7 +18,8 @@ export default new Vuex.Store({
       }
     ],
     notification: "",
-    isError: false
+    isError: false,
+    filter: ""
   },
   mutations: {
     addVote(state, anecdoteID) {
@@ -60,6 +61,9 @@ export default new Vuex.Store({
     dismissNotification(state) {
       state.notification = ""
       state.isError = false
+    },
+    filterAnecdotes(state, filter) {
+      state.filter = filter
     }
   },
   actions: {
@@ -72,6 +76,15 @@ export default new Vuex.Store({
     sortedAnecdotes: (state) => {
       return [...state.anecdotes].sort((a, b) => {
         return b.votes - a.votes
+      })
+    },
+    filteredSortedAnecdotes: (state, getters) => {
+      return getters.sortedAnecdotes.filter((anecdote) => {
+        return (
+          anecdote.content.toLowerCase().includes(
+            state.filter.toLowerCase()
+          )
+        )
       })
     }
   }
