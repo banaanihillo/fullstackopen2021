@@ -4,6 +4,8 @@
     <h2> Add a new anecdote </h2>
     <AddAnecdote />
     <Notification />
+    <h2> Filter anecdotes </h2>
+    <FilterAnecdotes />
     <h2> List of anecdotes </h2>
     <AnecdoteList />
   </div>
@@ -13,13 +15,15 @@
 import AnecdoteList from "./components/AnecdoteList.vue"
 import AddAnecdote from "./components/AddAnecdote.vue"
 import Notification from "./components/Notification.vue"
+import FilterAnecdotes from "./components/FilterAnecdotes.vue"
 
 export default {
   name: 'App',
   components: {
     AddAnecdote,
     AnecdoteList,
-    Notification
+    Notification,
+    FilterAnecdotes
   }
 }
 </script>

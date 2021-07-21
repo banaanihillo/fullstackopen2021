@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="anecdote in sortedAnecdotes" :key="anecdote.id">
+    <li v-for="anecdote in filteredSortedAnecdotes" :key="anecdote.id">
       <Anecdote :anecdote="anecdote" />
     </li>
   </ul>
@@ -14,8 +14,8 @@ export default {
     Anecdote
   },
   computed: {
-    sortedAnecdotes() {
-      return this.$store.getters.sortedAnecdotes
+    filteredSortedAnecdotes() {
+      return this.$store.getters.filteredSortedAnecdotes
     }
   }
 }
