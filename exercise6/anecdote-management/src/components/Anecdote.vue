@@ -23,6 +23,11 @@ export default {
         "addVote",
         anecdote.id
       )
+      this.$store.commit({
+        type: "setNotification",
+        notification: `Successfully voted for ${anecdote.content}.`,
+        timeoutDuration: 2000
+      })
     }
   }
 }
