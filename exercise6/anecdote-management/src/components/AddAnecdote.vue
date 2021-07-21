@@ -31,6 +31,11 @@ export default {
         "addAnecdote",
         this.anecdoteContent
       )
+      this.$store.commit({
+        type: "setNotification",
+        notification: `Successfully added ${this.anecdoteContent}.`,
+        timeoutDuration: 4000
+      })
       this.anecdoteContent = ""
     }
   }

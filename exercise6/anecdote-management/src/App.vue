@@ -3,6 +3,7 @@
     <h1> Anecdotes </h1>
     <h2> Add a new anecdote </h2>
     <AddAnecdote />
+    <Notification />
     <h2> List of anecdotes </h2>
     <AnecdoteList />
   </div>
@@ -11,12 +12,14 @@
 <script>
 import AnecdoteList from "./components/AnecdoteList.vue"
 import AddAnecdote from "./components/AddAnecdote.vue"
+import Notification from "./components/Notification.vue"
 
 export default {
   name: 'App',
   components: {
     AddAnecdote,
-    AnecdoteList
+    AnecdoteList,
+    Notification
   }
 }
 </script>

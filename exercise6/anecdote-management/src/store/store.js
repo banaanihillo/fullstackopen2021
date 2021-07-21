@@ -16,7 +16,9 @@ export default new Vuex.Store({
         votes: 3,
         id: "nanaba nababn banab bananab na"
       }
-    ]
+    ],
+    notification: "",
+    isError: false
   },
   mutations: {
     addVote(state, anecdoteID) {
@@ -45,6 +47,19 @@ export default new Vuex.Store({
         id: `${Math.random() * 100600700} banananananas`
       }
       state.anecdotes = state.anecdotes.concat(newAnecdote)
+    },
+    setNotification(state, payload) {
+      state.notification = payload.notification
+      state.isError = payload.isError || false
+      setTimeout(() => {
+        state.notification = ""
+        state.isError = false
+      },
+      payload.timeoutDuration)
+    },
+    dismissNotification(state) {
+      state.notification = ""
+      state.isError = false
     }
   },
   actions: {
