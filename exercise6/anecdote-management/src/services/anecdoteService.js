@@ -11,7 +11,16 @@ const addAnecdote = async (newAnecdote) => {
   return response.data
 }
 
+const updateAnecdote = async (anecdoteToUpdate) => {
+  const response = await axios.patch(
+    `${baseURL}/${anecdoteToUpdate.id}`,
+    anecdoteToUpdate
+  )
+  return response.data
+}
+
 export default {
   getAnecdotes,
-  addAnecdote
+  addAnecdote,
+  updateAnecdote
 }

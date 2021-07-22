@@ -12,16 +12,7 @@ export default new Vuex.Store({
     filter: ""
   },
   mutations: {
-    addVote(state, anecdoteID) {
-      const anecdoteToVote = state.anecdotes.find((anecdote) => {
-        return anecdote.id === anecdoteID
-      })
-      
-      const votedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
-      }
-      
+    ADD_VOTE(state, votedAnecdote) {
       const updatedAnecdotes = state.anecdotes.map((anecdote) => {
         return (
           anecdote.id === votedAnecdote.id
@@ -67,6 +58,19 @@ export default new Vuex.Store({
       context.commit(
         "ADD_ANECDOTE",
         anecdote
+      )
+    },
+    async addVote(context, anecdote) {
+      const anecdoteToVote = {
+        ...anecdote,
+        votes: anecdote.votes + 1
+      }
+      const votedAnecdote = await anecdoteService.updateAnecdote(
+        anecdoteToVote
+      )
+      context.commit(
+        "ADD_VOTE",
+        votedAnecdote
       )
     }
   },

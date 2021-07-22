@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "Mitä hitammi tippu, sen parempa tule",
-      "votes": 2,
+      "votes": 3,
       "id": "bana nana ban ban nan bannab nba bannanna na"
     },
     {
@@ -14,6 +14,11 @@
       "content": "Root, root root for the home team",
       "votes": 0,
       "id": "EDVSBKh"
+    },
+    {
+      "content": "Separation of concerns",
+      "votes": 1,
+      "id": "5ULy14L"
     }
   ]
 }
