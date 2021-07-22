@@ -19,9 +19,9 @@ export default {
   },
   methods: {
     addVote(anecdote) {
-      this.$store.commit(
+      this.$store.dispatch(
         "addVote",
-        anecdote.id
+        anecdote
       )
       this.$store.commit({
         type: "setNotification",
