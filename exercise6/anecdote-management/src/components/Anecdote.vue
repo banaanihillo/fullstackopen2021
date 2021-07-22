@@ -24,9 +24,9 @@ export default {
         anecdote
       )
       this.$store.commit({
-        type: "setNotification",
+        type: "SET_NOTIFICATION",
         notification: `Successfully voted for ${anecdote.content}.`,
-        timeoutDuration: 2000
+        timeoutSeconds: 2
       })
     }
   }

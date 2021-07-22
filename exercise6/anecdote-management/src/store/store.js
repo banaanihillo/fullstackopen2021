@@ -25,16 +25,18 @@ export default new Vuex.Store({
     ADD_ANECDOTE(state, createdAnecdote) {
       state.anecdotes = state.anecdotes.concat(createdAnecdote)
     },
-    setNotification(state, payload) {
+    SET_NOTIFICATION(state, payload) {
       state.notification = payload.notification
       state.isError = payload.isError || false
-      setTimeout(() => {
-        state.notification = ""
-        state.isError = false
-      },
-      payload.timeoutDuration)
+      setTimeout(
+        () => {
+          state.notification = ""
+          state.isError = false
+        },
+        payload.timeoutSeconds * 1000
+      )
     },
-    dismissNotification(state) {
+    DISMISS_NOTIFICATION(state) {
       state.notification = ""
       state.isError = false
     },

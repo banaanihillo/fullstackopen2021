@@ -15,7 +15,7 @@
 export default {
   methods: {
     dismissMessage() {
-      this.$store.commit("dismissNotification")
+      this.$store.commit("DISMISS_NOTIFICATION")
     },
     focusDismissButton() {
       this.$refs.dismiss.focus()
