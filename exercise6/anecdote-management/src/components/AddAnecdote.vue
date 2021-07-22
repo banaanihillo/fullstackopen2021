@@ -27,9 +27,12 @@ export default {
   },
   methods: {
     addAnecdote() {
-      this.$store.commit(
+      this.$store.dispatch(
         "addAnecdote",
-        this.anecdoteContent
+        {
+          content: this.anecdoteContent,
+          votes: 0
+        }
       )
       this.$store.commit({
         type: "setNotification",

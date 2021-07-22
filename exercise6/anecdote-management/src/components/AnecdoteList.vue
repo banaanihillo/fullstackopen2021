@@ -17,6 +17,9 @@ export default {
     filteredSortedAnecdotes() {
       return this.$store.getters.filteredSortedAnecdotes
     }
+  },
+  created() {
+    this.$store.dispatch("initializeAnecdotes")
   }
 }
 </script>

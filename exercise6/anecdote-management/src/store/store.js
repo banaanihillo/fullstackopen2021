@@ -1,22 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import anecdoteService from "../services/anecdoteService"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    anecdotes: [
-      {
-        content: "Mitä hitammi tippu, sen parempa tule",
-        votes: 2,
-        id: "bana nana ban ban nan bannab nba bannanna na"
-      },
-      {
-        content: "6-4-3 equals two",
-        votes: 3,
-        id: "nanaba nababn banab bananab na"
-      }
-    ],
+    anecdotes: [],
     notification: "",
     isError: false,
     filter: ""
@@ -41,13 +31,8 @@ export default new Vuex.Store({
       })
       state.anecdotes = updatedAnecdotes
     },
-    addAnecdote(state, payload) {
-      const newAnecdote = {
-        content: payload,
-        votes: 0,
-        id: `${Math.random() * 100600700} banananananas`
-      }
-      state.anecdotes = state.anecdotes.concat(newAnecdote)
+    addAnecdote(state, createdAnecdote) {
+      state.anecdotes = state.anecdotes.concat(createdAnecdote)
     },
     setNotification(state, payload) {
       state.notification = payload.notification
@@ -64,10 +49,26 @@ export default new Vuex.Store({
     },
     filterAnecdotes(state, filter) {
       state.filter = filter
+    },
+    initializeAnecdotes(state, anecdotes) {
+      state.anecdotes = anecdotes
     }
   },
   actions: {
-
+    async initializeAnecdotes(context) {
+      const anecdotes = await anecdoteService.getAnecdotes()
+      context.commit(
+        "initializeAnecdotes",
+        anecdotes
+      )
+    },
+    async addAnecdote(context, newAnecdote) {
+      const anecdote = await anecdoteService.addAnecdote(newAnecdote)
+      context.commit(
+        "addAnecdote",
+        anecdote
+      )
+    }
   },
   modules: {
 
