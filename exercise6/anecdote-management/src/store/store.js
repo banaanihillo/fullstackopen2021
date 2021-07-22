@@ -31,7 +31,7 @@ export default new Vuex.Store({
       })
       state.anecdotes = updatedAnecdotes
     },
-    addAnecdote(state, createdAnecdote) {
+    ADD_ANECDOTE(state, createdAnecdote) {
       state.anecdotes = state.anecdotes.concat(createdAnecdote)
     },
     setNotification(state, payload) {
@@ -47,10 +47,10 @@ export default new Vuex.Store({
       state.notification = ""
       state.isError = false
     },
-    filterAnecdotes(state, filter) {
+    FILTER_ANECDOTES(state, filter) {
       state.filter = filter
     },
-    initializeAnecdotes(state, anecdotes) {
+    INITIALIZE_ANECDOTES(state, anecdotes) {
       state.anecdotes = anecdotes
     }
   },
@@ -58,14 +58,14 @@ export default new Vuex.Store({
     async initializeAnecdotes(context) {
       const anecdotes = await anecdoteService.getAnecdotes()
       context.commit(
-        "initializeAnecdotes",
+        "INITIALIZE_ANECDOTES",
         anecdotes
       )
     },
     async addAnecdote(context, newAnecdote) {
       const anecdote = await anecdoteService.addAnecdote(newAnecdote)
       context.commit(
-        "addAnecdote",
+        "ADD_ANECDOTE",
         anecdote
       )
     }

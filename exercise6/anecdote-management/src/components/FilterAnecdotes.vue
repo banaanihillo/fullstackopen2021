@@ -22,7 +22,7 @@ export default {
   methods: {
     filterAnecdotes(searchQuery) {
       this.$store.commit(
-        "filterAnecdotes",
+        "FILTER_ANECDOTES",
         searchQuery
       )
     }
