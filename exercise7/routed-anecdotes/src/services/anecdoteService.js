@@ -19,8 +19,14 @@ const updateAnecdote = async (anecdoteToUpdate) => {
   return response.data
 }
 
+const getAnecdoteByID = async (anecdoteID) => {
+  const response = await axios.get(`${baseURL}/${anecdoteID}`)
+  return response.data
+}
+
 export default {
   getAnecdotes,
   addAnecdote,
-  updateAnecdote
+  updateAnecdote,
+  getAnecdoteByID
 }
