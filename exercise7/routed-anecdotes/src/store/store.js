@@ -4,13 +4,14 @@ import anecdoteService from "../services/anecdoteService"
 
 Vue.use(Vuex)
 
-//let notificationTimeoutID = null
+let notificationTimeoutID = null
 
 export default new Vuex.Store({
   state: {
-    anecdotes: []/* not implemented,
+    individualAnecdote: null,
+    anecdotes: [],
     notification: "",
-    isError: false,
+    isError: false,/* ,
     filter: "" */
   },
   mutations: {
@@ -22,13 +23,13 @@ export default new Vuex.Store({
             : anecdote
         )
       })
+      state.individualAnecdote = votedAnecdote
       state.anecdotes = updatedAnecdotes
     },
     ADD_ANECDOTE(state, createdAnecdote) {
       state.anecdotes = state.anecdotes.concat(createdAnecdote)
     },
-    // not implemented
-    /* SET_NOTIFICATION(state, payload) {
+    SET_NOTIFICATION(state, payload) {
       clearTimeout(notificationTimeoutID)
       state.notification = payload.notification
       state.isError = payload.isError || false
@@ -44,11 +45,14 @@ export default new Vuex.Store({
       state.notification = ""
       state.isError = false
     },
-    FILTER_ANECDOTES(state, filter) {
+    /* FILTER_ANECDOTES(state, filter) {
       state.filter = filter
     }, */
     INITIALIZE_ANECDOTES(state, anecdotes) {
       state.anecdotes = anecdotes
+    },
+    GET_ANECDOTE_BY_ID(state, anecdote) {
+      state.individualAnecdote = anecdote
     }
   },
   actions: {
@@ -77,6 +81,13 @@ export default new Vuex.Store({
       context.commit(
         "ADD_VOTE",
         votedAnecdote
+      )
+    },
+    async getAnecdoteByID(context, id) {
+      const anecdote = await anecdoteService.getAnecdoteByID(id)
+      context.commit(
+        "GET_ANECDOTE_BY_ID",
+        anecdote
       )
     }
   },
