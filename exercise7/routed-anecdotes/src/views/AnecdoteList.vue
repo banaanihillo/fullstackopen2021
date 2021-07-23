@@ -1,18 +1,16 @@
 <template>
   <ul>
     <li v-for="anecdote in sortedAnecdotes" :key="anecdote.id">
-      <Anecdote :anecdote="anecdote" />
+      <router-link :to="`anecdotes/${anecdote.id}`">
+        {{anecdote.content}}
+      </router-link>
     </li>
   </ul>
 </template>
 
-<script>
-import Anecdote from "../components/Anecdote.vue"
+<script> //
 
-export default {
-  components: {
-    Anecdote
-  },
+export default { //
   computed: {
     // filter not implemented
     /* filteredSortedAnecdotes() {
