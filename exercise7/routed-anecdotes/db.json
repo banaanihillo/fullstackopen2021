@@ -1,0 +1,39 @@
+{
+  "anecdotes": [
+    {
+      "content": "Mitä hitammi tippu, sen parempa tule",
+      "votes": 12,
+      "id": "bana nana ban ban nan bannab nba bannanna na"
+    },
+    {
+      "content": "6-4-3 equals two",
+      "votes": 19,
+      "id": "nanaba nababn banab bananab na"
+    },
+    {
+      "content": "Root, root root for the home team",
+      "votes": 0,
+      "id": "EDVSBKh"
+    },
+    {
+      "content": "Separation of concerns",
+      "votes": 1,
+      "id": "5ULy14L"
+    },
+    {
+      "content": "Universal metric units in an imperial domain",
+      "votes": 1,
+      "id": "emHS568"
+    },
+    {
+      "content": "Multiple pages in a single page application",
+      "votes": 0,
+      "id": "WKPqww0"
+    },
+    {
+      "content": "Programmatic navigation in a single page application",
+      "votes": 1,
+      "id": "jDOulb1"
+    }
+  ]
+}
