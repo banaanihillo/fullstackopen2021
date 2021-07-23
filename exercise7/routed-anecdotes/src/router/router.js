@@ -1,7 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import AnecdoteList from "../views/AnecdoteList.vue"
-import AddAnecdote from "../views/AddAnecdote.vue"
+import AnecdoteList from "../views/AnecdoteList.vue" //
 
 Vue.use(VueRouter)
 
@@ -13,8 +12,14 @@ const routes = [
   },
   {
     path: "/add-anecdote",
-    name: AddAnecdote,
+    name: "AddAnecdote",
     component: () => import("../views/AddAnecdote.vue")
+  },
+  {
+    path: "/anecdotes/:id",
+    name: "Anecdote",
+    component: () => import("../views/Anecdote.vue"),
+    props: true
   }
 ]
 

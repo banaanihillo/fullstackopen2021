@@ -25,7 +25,7 @@ body {
 }
 
 a:link {
-  color: aqua;
+  color: turquoise;
 }
 
 a:visited {
