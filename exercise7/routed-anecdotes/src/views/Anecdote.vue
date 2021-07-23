@@ -1,5 +1,6 @@
 <template>
-  <div>
+<span>
+  <div v-if="anecdote">
     <h2>
       {{anecdote.content}}
     </h2>
@@ -10,6 +11,12 @@
       Vote
     </button>
   </div>
+  <div v-else>
+    <p>
+      Loading
+    </p>
+  </div>
+</span>
 </template>
 
 <script>
@@ -20,20 +27,23 @@ export default {
         "addVote",
         anecdote
       )
-      // not implemented
-      /* this.$store.commit({
+      this.$store.commit({
         type: "SET_NOTIFICATION",
         notification: `Successfully voted for ${anecdote.content}.`,
         timeoutSeconds: 2
-      }) */
+      })
     }
   },
   computed: {
     anecdote() {
-      return this.$store.getters.sortedAnecdotes.find((anecdote) => {
-        return anecdote.id === this.$route.params.id
-      })
+      return this.$store.state.individualAnecdote
     }
+  },
+  created() {
+    this.$store.dispatch(
+      "getAnecdoteByID",
+      this.$route.params.id
+    )
   }
 }
 </script>
