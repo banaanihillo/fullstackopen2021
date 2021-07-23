@@ -4,6 +4,8 @@ import anecdoteService from "../services/anecdoteService"
 
 Vue.use(Vuex)
 
+let notificationTimeoutID = null
+
 export default new Vuex.Store({
   state: {
     anecdotes: [],
@@ -26,9 +28,10 @@ export default new Vuex.Store({
       state.anecdotes = state.anecdotes.concat(createdAnecdote)
     },
     SET_NOTIFICATION(state, payload) {
+      clearTimeout(notificationTimeoutID)
       state.notification = payload.notification
       state.isError = payload.isError || false
-      setTimeout(
+      notificationTimeoutID = setTimeout(
         () => {
           state.notification = ""
           state.isError = false
