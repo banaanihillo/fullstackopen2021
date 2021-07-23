@@ -35,12 +35,11 @@ export default {
           votes: 0
         }
       )
-      // not implemented
-      /* this.$store.commit({
+      this.$store.commit({
         type: "SET_NOTIFICATION",
         notification: `Successfully added ${this.anecdoteContent}.`,
         timeoutSeconds: 4
-      }) */
+      })
       this.$router.push("/")
     }
   }

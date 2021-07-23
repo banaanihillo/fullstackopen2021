@@ -5,6 +5,9 @@
       <router-link to="/">Anecdotes</router-link>
       <router-link to="/add-anecdote">Add anecdote</router-link>
     </nav>
+
+    <Notification />
+    
     <router-view />
   </main>
 
@@ -15,6 +18,16 @@
   </footer>
 </span>
 </template>
+
+<script>
+import Notification from "./components/Notification.vue"
+
+export default {
+  components: {
+    Notification
+  }
+}
+</script>
 
 <style>
 body {
