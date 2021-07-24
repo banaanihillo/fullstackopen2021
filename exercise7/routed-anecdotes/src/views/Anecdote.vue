@@ -4,6 +4,14 @@
     <h2>
       {{anecdote.content}}
     </h2>
+    <span v-if="anecdote.author">
+      By {{anecdote.author}}
+      <p v-if="anecdote.url">
+        <a :href="anecdote.url">
+          {{anecdote.author}}
+        </a>
+      </p>
+    </span>
     <p>
       Votes: {{anecdote.votes}}
     </p>
