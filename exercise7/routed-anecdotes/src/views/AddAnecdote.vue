@@ -1,18 +1,32 @@
 <template>
   <form @submit.prevent="addAnecdote">
     <InputField
-      v-model="anecdoteContent"
-      label="Anecdote content"
+      v-model="input.content"
+      label="Content"
       type="text"
       required
       minLength="2"
       maxLength="60"
-      lineBreak
+    />
+    <InputField
+      label="Author"
+      type="text"
+      v-model="input.author"
+    />
+    <InputField
+      label="URL"
+      type="text"
+      v-model="input.url"
     />
     
     <button type="submit">
       Submit
     </button>
+    <p class="danger">
+      <button type="reset">
+        Reset, if you really want to
+      </button>
+    </p>
   </form>
 </template>
 
@@ -25,7 +39,11 @@ export default {
   },
   data() {
     return {
-      anecdoteContent: ""
+      input: {
+        content: "",
+        author: "",
+        url: ""
+      }
     }
   },
   methods: {
@@ -33,13 +51,13 @@ export default {
       this.$store.dispatch(
         "addAnecdote",
         {
-          content: this.anecdoteContent,
+          ...this.input,
           votes: 0
         }
       )
       this.$store.commit({
         type: "SET_NOTIFICATION",
-        notification: `Successfully added ${this.anecdoteContent}.`,
+        notification: `Successfully added ${this.input.content}.`,
         timeoutSeconds: 4
       })
       this.$router.push("/")
@@ -48,6 +66,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+button[type="reset"] {
+  background-color: tomato;
+}
 
+.danger {
+  border: 1px solid red;
+  padding: 1em;
+}
 </style>

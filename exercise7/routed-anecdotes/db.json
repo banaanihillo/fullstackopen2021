@@ -49,6 +49,27 @@
       "content": "Significantly lengthy anecdote unsuitable for displays of li",
       "votes": 2,
       "id": "x5ZGq4B"
+    },
+    {
+      "content": "Anecdotal information with author credit",
+      "author": "[unassigned]",
+      "url": "",
+      "votes": 1,
+      "id": "kqx1le9"
+    },
+    {
+      "content": "Extended anecdote information",
+      "author": "Banaani Hillo",
+      "url": "https://github.com/banaanihillo",
+      "votes": 1,
+      "id": "myTlp_4"
+    },
+    {
+      "content": "Content of unknown origin",
+      "author": "",
+      "url": "",
+      "votes": 0,
+      "id": "yIt4ul1"
     }
   ]
 }
