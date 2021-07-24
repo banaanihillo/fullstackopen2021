@@ -50,6 +50,7 @@ nav {
   flex-flow: row nowrap;
   justify-content: center;
   gap: 1em;
+  padding-bottom: 1em;
 }
 
 input,

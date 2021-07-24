@@ -1,9 +1,9 @@
 <template>
-  <p>
+  <p class="input">
     <label :for="`${label}-input`">
       {{label}}
     </label>
-    <br v-if="lineBreak" />
+    
     <input
       :type="type"
       :id="`${label}-input`"
@@ -32,11 +32,7 @@ export default {
     maxLength: {
       type: String,
       required: false
-    },
-    lineBreak: {
-      type: Boolean,
-      required: false
-    }
+    } //
   },
   data() {
     return {
@@ -47,7 +43,17 @@ export default {
 </script>
 
 <style scoped>
-input[type="text"] {
+.input {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.input label {
+  width: 5em;
+}
+
+input[maxLength] {
   width: 30em;
 }
 </style>
