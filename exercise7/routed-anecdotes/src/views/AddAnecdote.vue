@@ -1,18 +1,15 @@
 <template>
   <form @submit.prevent="addAnecdote">
-    <p>
-      <label for="anecdote-input">
-        Anecdote content
-      </label>
-      <br />
-      <input
-        id="anecdote-input"
-        v-model="anecdoteContent"
-        type="text"
-        required
-        minLength="1"
-      />
-    </p>
+    <InputField
+      v-model="anecdoteContent"
+      label="Anecdote content"
+      type="text"
+      required
+      minLength="2"
+      maxLength="60"
+      lineBreak
+    />
+    
     <button type="submit">
       Submit
     </button>
@@ -20,7 +17,12 @@
 </template>
 
 <script>
+import InputField from "../components/InputField.vue"
+
 export default {
+  components: {
+    InputField
+  },
   data() {
     return {
       anecdoteContent: ""
@@ -46,8 +48,6 @@ export default {
 }
 </script>
 
-<style scoped>
-input[type="text"] {
-  width: 30em;
-}
+<style>
+
 </style>
