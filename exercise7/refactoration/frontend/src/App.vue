@@ -32,8 +32,7 @@
         <Blog
           :blog="blog"
           :loggedIn="loggedIn"
-          @delete-blog="deleteBlog"
-        /> <!---->
+        />
       </ul>
     </span>
   </div>
@@ -63,16 +62,9 @@ export default {
       formVisible: false
     }
   },
-  computed: {
-    blogs() {
-      return this.$store.state.blogs
-    },
-    // 7-03: Re-sort after upvote works,
-    // but this should probably be a store getter instead
+  computed: { //
     sortedBlogs() {
-      return [...this.blogs].sort((a, b) => {
-        return (b.upvotes - a.upvotes)
-      })
+      return this.$store.getters.sortedBlogs
     }
   },
   async created() {
@@ -124,31 +116,7 @@ export default {
     }, //
     toggleVisibility() {
       this.formVisible = !this.formVisible
-    }, //
-    async deleteBlog(blogID) {
-      try {
-        await blogService.deleteBlog(blogID)
-        this.blogs = this.blogs.filter((blog) => {
-          return (blog.id !== blogID)
-        })
-        this.$store.commit(
-          "SET_NOTIFICATION",
-          {
-            notification: `Successfully deleted ${blogID}.`,
-            timeoutDuration: 5000
-          }
-        )
-      } catch (exception) {
-        this.$store.commit(
-          "SET_NOTIFICATION",
-          {
-            notification: exception,
-            timeoutDuration: 6000,
-            isError: true
-          }
-        )
-      }
-    }
+    } //
   }
 }
 </script>
