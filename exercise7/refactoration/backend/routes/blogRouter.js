@@ -8,9 +8,7 @@ blogRouter.get("/", async (_request, response) => {
 })
 
 blogRouter.post("/", userExtractor, async (request, response) => {
-  console.log("Token", request.token)
-  console.log("User", request.user)
-  if (!request.token || !request.user) {
+  if (!request.token || !request.user) { //
     return response.status(401).json({
       error: "Invalid token."
     })
