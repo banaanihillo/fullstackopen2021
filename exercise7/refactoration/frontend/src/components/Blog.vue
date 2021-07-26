@@ -38,12 +38,16 @@
 export default {
   name: "Blog",
   props: {
-    blog: Object,
-    loggedIn: Object
+    blog: Object
   },
   data() {
     return {
       expandedInformation: false
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn
     }
   },
   methods: {
