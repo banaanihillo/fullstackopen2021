@@ -43,6 +43,11 @@ export default new Vuex.Store({
             : blog
         )
       })
+    },
+    DELETE_BLOG(state, deletedBlogID) {
+      state.blogs = state.blogs.filter((blog) => {
+        return blog.id !== deletedBlogID
+      })
     }
   },
   actions: {
@@ -66,12 +71,23 @@ export default new Vuex.Store({
         "ADD_UPVOTE",
         upvotedBlog
       )
+    },
+    async deleteBlog(context, blogID) {
+      await blogService.deleteBlog(blogID)
+      context.commit(
+        "DELETE_BLOG",
+        blogID
+      )
     }
   },
   modules: {
 
   },
   getters: {
-
+    sortedBlogs: (state) => {
+      return [...state.blogs].sort((a, b) => {
+        return b.upvotes - a.upvotes
+      })
+    }
   }
 })
