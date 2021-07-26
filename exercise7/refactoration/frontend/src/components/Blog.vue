@@ -51,6 +51,7 @@ export default {
       this.expandedInformation = !this.expandedInformation
     },
     addUpvote() {
+      // 7-02: upvote incremention does not work yet
       this.$emit(
         "add-upvote",
         {

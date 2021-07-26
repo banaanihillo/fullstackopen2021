@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import blogService from "../services/blogService"
 
 Vue.use(Vuex)
 
@@ -8,7 +9,8 @@ let notificationTimeoutID = null
 export default new Vuex.Store({
   state: {
     notification: null,
-    isError: false
+    isError: false,
+    blogs: []
   },
   mutations: {
     SET_NOTIFICATION(state, payload) {
@@ -26,9 +28,34 @@ export default new Vuex.Store({
     DISMISS_NOTIFICATION(state) {
       state.notification = null
       state.isError = false
+    },
+    INITIALIZE_BLOGS(state, blogs) {
+      state.blogs = blogs
+    },
+    ADD_BLOG(state, newBlog) {
+      state.blogs = state.blogs.concat(newBlog)
     }
   },
-  actions: {},
-  modules: {},
-  getters: {}
+  actions: {
+    async initializeBlogs(context) {
+      const blogs = await blogService.getBlogs()
+      context.commit(
+        "INITIALIZE_BLOGS",
+        blogs
+      )
+    },
+    async addBlog(context, payload) {
+      const newBlog = await blogService.addBlog(payload)
+      context.commit(
+        "ADD_BLOG",
+        newBlog
+      )
+    }
+  },
+  modules: {
+
+  },
+  getters: {
+
+  }
 })
