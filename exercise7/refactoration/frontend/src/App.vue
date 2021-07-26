@@ -25,7 +25,7 @@
         :formVisible="formVisible"
         @toggle-visibility="toggleVisibility"
       >
-        <AddBlog @add-blog="addBlog" />
+        <AddBlog @toggle-visibility="toggleVisibility" />
       </Togglable>
       <h2> List of blogs </h2>
       <ul v-for="blog in sortedBlogs" :key="blog.id">
@@ -59,13 +59,17 @@ export default {
     Togglable
   },
   data() {
-    return {
-      blogs: [],
+    return { //
       loggedIn: null,
       formVisible: false
     }
   },
   computed: {
+    blogs() {
+      return this.$store.state.blogs
+    },
+    // 7-02: re-sort may or may not work,
+    // as upvotes do not work yet
     sortedBlogs() {
       return [...this.blogs].sort((a, b) => {
         return (b.upvotes - a.upvotes)
@@ -73,8 +77,7 @@ export default {
     }
   },
   async created() {
-    const blogs = await blogService.getBlogs()
-    this.blogs = blogs
+    this.$store.dispatch("initializeBlogs")
     const loggedIn = localStorage.getItem("loggedIn")
     if (loggedIn) {
       const user = JSON.parse(loggedIn)
@@ -119,36 +122,13 @@ export default {
       // Collapse all forms,
       // even if the blog addition form was open when the user logs out
       this.formVisible = false
-    },
-    async addBlog(input) {
-      try {
-        const newBlog = await blogService.addBlog(input)
-        this.blogs = [
-          ...this.blogs,
-          newBlog
-        ]
-        this.$store.commit(
-          "SET_NOTIFICATION",
-          {
-            notification: `Successfully added ${newBlog.title}.`,
-            timeoutDuration: 3000
-          }
-        )
-        this.toggleVisibility()
-      } catch (error) {
-        this.$store.commit(
-          "SET_NOTIFICATION",
-          {
-            notification: error.message,
-            timeoutDuration: 6000,
-            isError: true
-          }
-        )
-      }
-    },
+    }, //
     toggleVisibility() {
       this.formVisible = !this.formVisible
     },
+    // 7-02: does not work yet,
+    // as blogs are now a computed property from the store,
+    // instead of a data property
     async addUpvote(blogToUpvote) {
       const upvotedBlog = await blogService.addUpvote(blogToUpvote)
       this.blogs = this.blogs.map((blog) => {
