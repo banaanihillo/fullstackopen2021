@@ -1,16 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import blogService from "../services/blogService"
+import logInService from "../services/logInService"
 
 Vue.use(Vuex)
 
 let notificationTimeoutID = null
 
+const getUserFromLocalStorage = () => {
+  const userFromLocalStorage = localStorage.getItem("loggedIn")
+  if (userFromLocalStorage) {
+    const user = JSON.parse(userFromLocalStorage)
+    blogService.setToken(user.token)
+    return user
+  }
+}
+
 export default new Vuex.Store({
   state: {
     notification: null,
     isError: false,
-    blogs: []
+    blogs: [],
+    loggedIn: getUserFromLocalStorage() || null
   },
   mutations: {
     SET_NOTIFICATION(state, payload) {
@@ -48,6 +59,20 @@ export default new Vuex.Store({
       state.blogs = state.blogs.filter((blog) => {
         return blog.id !== deletedBlogID
       })
+    },
+    LOG_IN(state, loggedIn) {
+      console.log(loggedIn)
+      state.loggedIn = loggedIn
+      blogService.setToken(loggedIn.token)
+      localStorage.setItem(
+        "loggedIn",
+        JSON.stringify(loggedIn)
+      )
+    },
+    LOG_OUT(state) {
+      state.loggedIn = null
+      blogService.setToken(null)
+      localStorage.removeItem("loggedIn")
     }
   },
   actions: {
@@ -77,6 +102,13 @@ export default new Vuex.Store({
       context.commit(
         "DELETE_BLOG",
         blogID
+      )
+    },
+    async logIn(context, credentials) {
+      const loggedIn = await logInService.logIn(credentials)
+      context.commit(
+        "LOG_IN",
+        loggedIn
       )
     }
   },
