@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import blogService from "../services/blogService"
 import logInService from "../services/logInService"
+import userService from "../services/userService"
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     notification: null,
     isError: false,
     blogs: [],
-    loggedIn: getUserFromLocalStorage() || null
+    loggedIn: getUserFromLocalStorage() || null,
+    users: []
   },
   mutations: {
     SET_NOTIFICATION(state, payload) {
@@ -43,8 +45,22 @@ export default new Vuex.Store({
     INITIALIZE_BLOGS(state, blogs) {
       state.blogs = blogs
     },
+    INITIALIZE_USERS(state, users) {
+      state.users = users
+    },
     ADD_BLOG(state, newBlog) {
       state.blogs = state.blogs.concat(newBlog)
+
+      state.users = state.users.map((user) => {
+        return (
+          user.id === newBlog.user
+            ? {
+              ...user,
+              blogs: user.blogs.concat(newBlog)
+            }
+            : user
+        )
+      })
     },
     ADD_UPVOTE(state, upvotedBlog) {
       state.blogs = state.blogs.map((blog) => {
@@ -59,8 +75,21 @@ export default new Vuex.Store({
       state.blogs = state.blogs.filter((blog) => {
         return blog.id !== deletedBlogID
       })
+
+      state.users = state.users.map((user) => {
+        return (
+          user.blogs.some((blog) => blog.id === deletedBlogID)
+            ? {
+              ...user,
+              blogs: user.blogs.filter((blog) => {
+                return blog.id !== deletedBlogID
+              })
+            }
+            : user
+        )
+      })
     },
-    LOG_IN(state, loggedIn) { //
+    LOG_IN(state, loggedIn) {
       state.loggedIn = loggedIn
       blogService.setToken(loggedIn.token)
       localStorage.setItem(
@@ -80,6 +109,13 @@ export default new Vuex.Store({
       context.commit(
         "INITIALIZE_BLOGS",
         blogs
+      )
+    },
+    async initializeUsers(context) {
+      const users = await userService.getUsers()
+      context.commit(
+        "INITIALIZE_USERS",
+        users
       )
     },
     async addBlog(context, payload) {
