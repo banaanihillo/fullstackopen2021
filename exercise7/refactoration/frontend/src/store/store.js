@@ -60,8 +60,7 @@ export default new Vuex.Store({
         return blog.id !== deletedBlogID
       })
     },
-    LOG_IN(state, loggedIn) {
-      console.log(loggedIn)
+    LOG_IN(state, loggedIn) { //
       state.loggedIn = loggedIn
       blogService.setToken(loggedIn.token)
       localStorage.setItem(
