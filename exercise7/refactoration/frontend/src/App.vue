@@ -9,7 +9,7 @@
         :formVisible="formVisible"
         @toggle-visibility="toggleVisibility"
       >
-        <LogIn @log-in="logIn" />
+        <LogIn @toggle-visibility="toggleVisibility" />
       </Togglable>
     </span>
     <span v-else>
@@ -29,18 +29,13 @@
       </Togglable>
       <h2> List of blogs </h2>
       <ul v-for="blog in sortedBlogs" :key="blog.id">
-        <Blog
-          :blog="blog"
-          :loggedIn="loggedIn"
-        />
+        <Blog :blog="blog" />
       </ul>
     </span>
   </div>
 </template>
 
-<script>
-import blogService from "./services/blogService"
-import logInService from "./services/logInService"
+<script> //
 import Blog from "./components/Blog.vue"
 import LogIn from "./components/LogIn.vue"
 import AddBlog from "./components/AddBlog.vue"
@@ -57,52 +52,24 @@ export default {
     Togglable
   },
   data() {
-    return {
-      loggedIn: null,
+    return { //
       formVisible: false
     }
   },
-  computed: { //
+  computed: {
     sortedBlogs() {
       return this.$store.getters.sortedBlogs
+    },
+    loggedIn() {
+      return this.$store.state.loggedIn
     }
   },
   async created() {
-    this.$store.dispatch("initializeBlogs")
-    const loggedIn = localStorage.getItem("loggedIn")
-    if (loggedIn) {
-      const user = JSON.parse(loggedIn)
-      this.loggedIn = user
-    }
+    this.$store.dispatch("initializeBlogs") //
   },
-  methods: {
-    async logIn(credentials) {
-      try {
-        const user = await logInService.logIn(credentials)
-        this.loggedIn = user
-        blogService.setToken(user.token)
-        localStorage.setItem(
-          "loggedIn",
-          JSON.stringify(user)
-        )
-        // Close the log-in form (which should not be visible anyway),
-        // and also start with the blog addition form collapsed
-        this.toggleVisibility()
-      } catch (error) {
-        this.$store.commit(
-          "SET_NOTIFICATION",
-          {
-            notification: error.message,
-            timeoutDuration: 6000,
-            isError: true
-          }
-        )
-      }
-    },
+  methods: { //
     logOut() {
-      this.loggedIn = null
-      blogService.setToken(null)
-      localStorage.removeItem("loggedIn")
+      this.$store.commit("LOG_OUT")
       this.$store.commit(
         "SET_NOTIFICATION",
         {
@@ -113,10 +80,10 @@ export default {
       // Collapse all forms,
       // even if the blog addition form was open when the user logs out
       this.formVisible = false
-    }, //
+    },
     toggleVisibility() {
       this.formVisible = !this.formVisible
-    } //
+    }
   }
 }
 </script>
