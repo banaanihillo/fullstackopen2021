@@ -33,11 +33,30 @@ export default {
     }
   },
   methods: {
-    addBlog() {
-      this.$emit(
-        "add-blog",
-        {...this.input}
-      )
+    async addBlog() {
+      try {
+        await this.$store.dispatch(
+          "addBlog",
+          {...this.input}
+        )
+        this.$emit("toggleVisibility")
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: `Successfully added ${this.input.title}.`,
+            timeoutDuration: 3000
+          }
+        )
+      } catch (error) {
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: error.message,
+            timeoutDuration: 6000,
+            isError: true
+          }
+        )
+      }
       this.input = {
         title: "",
         author: "",
