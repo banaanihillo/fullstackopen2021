@@ -50,10 +50,9 @@ export default {
     toggleExpandedInformation() {
       this.expandedInformation = !this.expandedInformation
     },
-    addUpvote() {
-      // 7-02: upvote incremention does not work yet
-      this.$emit(
-        "add-upvote",
+    async addUpvote() {
+      await this.$store.dispatch(
+        "addUpvote",
         {
           ...this.blog,
           upvotes: this.blog.upvotes + 1

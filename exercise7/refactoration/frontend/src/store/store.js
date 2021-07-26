@@ -34,6 +34,15 @@ export default new Vuex.Store({
     },
     ADD_BLOG(state, newBlog) {
       state.blogs = state.blogs.concat(newBlog)
+    },
+    ADD_UPVOTE(state, upvotedBlog) {
+      state.blogs = state.blogs.map((blog) => {
+        return (
+          blog.id === upvotedBlog.id
+            ? upvotedBlog
+            : blog
+        )
+      })
     }
   },
   actions: {
@@ -49,6 +58,13 @@ export default new Vuex.Store({
       context.commit(
         "ADD_BLOG",
         newBlog
+      )
+    },
+    async addUpvote(context, payload) {
+      const upvotedBlog = await blogService.addUpvote(payload)
+      context.commit(
+        "ADD_UPVOTE",
+        upvotedBlog
       )
     }
   },

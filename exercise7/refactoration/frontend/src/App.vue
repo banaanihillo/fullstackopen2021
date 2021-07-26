@@ -33,8 +33,7 @@
           :blog="blog"
           :loggedIn="loggedIn"
           @delete-blog="deleteBlog"
-          @add-upvote="addUpvote"
-        />
+        /> <!---->
       </ul>
     </span>
   </div>
@@ -59,7 +58,7 @@ export default {
     Togglable
   },
   data() {
-    return { //
+    return {
       loggedIn: null,
       formVisible: false
     }
@@ -68,8 +67,8 @@ export default {
     blogs() {
       return this.$store.state.blogs
     },
-    // 7-02: re-sort may or may not work,
-    // as upvotes do not work yet
+    // 7-03: Re-sort after upvote works,
+    // but this should probably be a store getter instead
     sortedBlogs() {
       return [...this.blogs].sort((a, b) => {
         return (b.upvotes - a.upvotes)
@@ -125,20 +124,7 @@ export default {
     }, //
     toggleVisibility() {
       this.formVisible = !this.formVisible
-    },
-    // 7-02: does not work yet,
-    // as blogs are now a computed property from the store,
-    // instead of a data property
-    async addUpvote(blogToUpvote) {
-      const upvotedBlog = await blogService.addUpvote(blogToUpvote)
-      this.blogs = this.blogs.map((blog) => {
-        return (
-          blog.id === upvotedBlog.id
-            ? upvotedBlog
-            : blog
-        )
-      })
-    },
+    }, //
     async deleteBlog(blogID) {
       try {
         await blogService.deleteBlog(blogID)
