@@ -32,23 +32,29 @@ export default {
     }
   },
   methods: {
-    logIn() {
-      this.$emit(
-        "log-in",
-        {...this.credentials}
-      )
-
-      this.$store.commit(
-        "SET_NOTIFICATION",
-        {
-          notification: `Welcome, ${this.credentials.userName}.`,
-          timeoutDuration: 4000
-        }
-      )
-
-      this.credentials = {
-        userName: "",
-        password: ""
+    async logIn() {
+      try {
+        await this.$store.dispatch(
+          "logIn",
+          {...this.credentials}
+        )
+        this.$emit("toggleVisibility")
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: `Welcome, ${this.credentials.userName}.`,
+            timeoutDuration: 4000
+          }
+        )
+      } catch (error) {
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: error.message,
+            timeoutDuration: 6000,
+            isError: true
+          }
+        )
       }
     },
     focusForm() {
