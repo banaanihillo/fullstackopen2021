@@ -67,19 +67,30 @@ export default {
         }
       )
     },
-    deleteBlog() {
-      this.$emit(
-        "delete-blog",
-        this.blog.id
-      )
-
-      this.$store.commit(
-        "SET_NOTIFICATION",
-        {
-          notification: "Deletion successful.",
-          timeoutDuration: 8000
-        }
-      )
+    async deleteBlog() {
+      try {
+        await this.$store.dispatch(
+          "deleteBlog",
+          this.blog.id
+        )
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: "Deletion successful.",
+            timeoutDuration: 6000
+          }
+        )
+      } catch (error) {
+        console.log("Blog deletion error", error)
+        this.$store.commit(
+          "SET_NOTIFICATION",
+          {
+            notification: error,
+            timeoutDuration: 8000,
+            isError: true
+          }
+        )
+      }
     }
   }
 }
