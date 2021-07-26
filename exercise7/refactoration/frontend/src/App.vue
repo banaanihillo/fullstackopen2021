@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <h1> Blogs </h1>
+
     <Notification />
+
     <span v-if="!loggedIn">
       <h2> Log in </h2>
       <Togglable
@@ -19,6 +21,7 @@
           Log out
         </button>
       </p>
+
       <h2> Add blog </h2>
       <Togglable
         buttonLabel="Add blog"
@@ -27,20 +30,25 @@
       >
         <AddBlog @toggle-visibility="toggleVisibility" />
       </Togglable>
+
       <h2> List of blogs </h2>
       <ul v-for="blog in sortedBlogs" :key="blog.id">
         <Blog :blog="blog" />
       </ul>
+
+      <h2> Table of users </h2>
+      <Users />
     </span>
   </div>
 </template>
 
-<script> //
+<script>
 import Blog from "./components/Blog.vue"
 import LogIn from "./components/LogIn.vue"
 import AddBlog from "./components/AddBlog.vue"
 import Notification from "./components/Notification.vue"
 import Togglable from "./components/Togglable.vue"
+import Users from "./components/Users.vue"
 
 export default {
   name: 'App',
@@ -49,10 +57,11 @@ export default {
     LogIn,
     AddBlog,
     Notification,
-    Togglable
+    Togglable,
+    Users
   },
   data() {
-    return { //
+    return {
       formVisible: false
     }
   },
@@ -65,9 +74,10 @@ export default {
     }
   },
   async created() {
-    this.$store.dispatch("initializeBlogs") //
+    this.$store.dispatch("initializeBlogs")
+    this.$store.dispatch("initializeUsers")
   },
-  methods: { //
+  methods: {
     logOut() {
       this.$store.commit("LOG_OUT")
       this.$store.commit(
