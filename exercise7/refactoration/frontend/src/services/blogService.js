@@ -53,10 +53,16 @@ const deleteBlog = async (blogID) => {
   }
 }
 
+const getBlogByID = async (blogID) => {
+  const response = await axios.get(`${baseURL}/${blogID}`)
+  return response.data
+}
+
 export default {
   getBlogs,
   addBlog,
   setToken,
   addUpvote,
-  deleteBlog
+  deleteBlog,
+  getBlogByID
 }
