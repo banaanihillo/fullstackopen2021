@@ -34,11 +34,11 @@ export default {
   methods: {
     async logIn() {
       try {
+        this.$emit("toggle-visibility")
         await this.$store.dispatch(
           "logIn",
           {...this.credentials}
-        )
-        this.$emit("toggleVisibility")
+        ) //
         this.$store.commit(
           "SET_NOTIFICATION",
           {

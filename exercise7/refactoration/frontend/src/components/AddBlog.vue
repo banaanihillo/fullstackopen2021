@@ -39,7 +39,7 @@ export default {
           "addBlog",
           {...this.input}
         )
-        this.$emit("toggleVisibility")
+        this.$emit("toggle-visibility")
         this.$store.commit(
           "SET_NOTIFICATION",
           {
