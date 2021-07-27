@@ -4,96 +4,24 @@
 
     <Notification />
 
-    <span v-if="!loggedIn">
-      <h2> Log in </h2>
-      <Togglable
-        buttonLabel="Log in"
-        :formVisible="formVisible"
-        @toggle-visibility="toggleVisibility"
-      >
-        <LogIn @toggle-visibility="toggleVisibility" />
-      </Togglable>
-    </span>
-    <span v-else>
-      <p>
-        Logged in as {{loggedIn.userName}}. <br />
-        <button @click="logOut">
-          Log out
-        </button>
-      </p>
-
-      <h2> Add blog </h2>
-      <Togglable
-        buttonLabel="Add blog"
-        :formVisible="formVisible"
-        @toggle-visibility="toggleVisibility"
-      >
-        <AddBlog @toggle-visibility="toggleVisibility" />
-      </Togglable>
-
-      <h2> List of blogs </h2>
-      <ul v-for="blog in sortedBlogs" :key="blog.id">
-        <Blog :blog="blog" />
-      </ul>
-
-      <h2> Table of users </h2>
-      <Users />
-    </span>
+    <router-view>
+      <Home />
+      <User />
+    </router-view>
   </div>
 </template>
 
-<script>
-import Blog from "./components/Blog.vue"
-import LogIn from "./components/LogIn.vue"
-import AddBlog from "./components/AddBlog.vue"
+<script> //
 import Notification from "./components/Notification.vue"
-import Togglable from "./components/Togglable.vue"
-import Users from "./components/Users.vue"
+import User from "./views/User.vue"
+import Home from "./views/Home.vue"
 
 export default {
   name: 'App',
-  components: {
-    Blog,
-    LogIn,
-    AddBlog,
+  components: { //
     Notification,
-    Togglable,
-    Users
-  },
-  data() {
-    return {
-      formVisible: false
-    }
-  },
-  computed: {
-    sortedBlogs() {
-      return this.$store.getters.sortedBlogs
-    },
-    loggedIn() {
-      return this.$store.state.loggedIn
-    }
-  },
-  async created() {
-    this.$store.dispatch("initializeBlogs")
-    this.$store.dispatch("initializeUsers")
-  },
-  methods: {
-    logOut() {
-      this.$store.commit("LOG_OUT")
-      this.$store.commit(
-        "SET_NOTIFICATION",
-        {
-          notification: "Logged out successfully.",
-          timeoutDuration: 3000
-        }
-      )
-      // Collapse all forms,
-      // even if the blog addition form was open when the user logs out
-      this.formVisible = false
-    },
-    toggleVisibility() {
-      this.formVisible = !this.formVisible
-    }
+    User,
+    Home
   }
 }
 </script>
@@ -108,7 +36,7 @@ body {
 }
 
 a:link {
-  color: turquoise;
+  color: darkturquoise;
 }
 
 a:visited {
