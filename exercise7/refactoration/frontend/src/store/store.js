@@ -23,7 +23,8 @@ export default new Vuex.Store({
     isError: false,
     blogs: [],
     loggedIn: getUserFromLocalStorage() || null,
-    users: []
+    users: [],
+    individualUser: null
   },
   mutations: {
     SET_NOTIFICATION(state, payload) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     INITIALIZE_USERS(state, users) {
       state.users = users
+    },
+    INITIALIZE_INDIVIDUAL_USER(state, individualUser) {
+      state.individualUser = individualUser
     },
     ADD_BLOG(state, newBlog) {
       state.blogs = state.blogs.concat(newBlog)
@@ -116,6 +120,13 @@ export default new Vuex.Store({
       context.commit(
         "INITIALIZE_USERS",
         users
+      )
+    },
+    async initializeIndividualUser(context, userID) {
+      const individualUser = await userService.getUserByID(userID)
+      context.commit(
+        "INITIALIZE_INDIVIDUAL_USER",
+        individualUser
       )
     },
     async addBlog(context, payload) {
