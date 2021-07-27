@@ -1,30 +1,91 @@
 <template>
-  <div id="app">
+<span id="app">
+  <header>
+    <nav>
+      <router-link to="/">
+        Home
+      </router-link>
+      <router-link to="/blogs" v-if="loggedIn">
+        Blogs
+      </router-link>
+      <router-link to="/users" v-if="loggedIn">
+        Users
+      </router-link>
+    </nav>
     <h1> Blogs </h1>
+  </header>
 
+  <main>
     <Notification />
 
-    <router-view>
-      <Home />
-      <User />
-      <Blog />
-    </router-view>
-  </div>
+    <span v-if="!loggedIn">
+      <h2> Log in </h2>
+      <Togglable
+        buttonLabel="Log in"
+        :formVisible="formVisible"
+        @toggle-visibility="toggleVisibility"
+      >
+        <LogIn @toggle-visibility="toggleVisibility" />
+      </Togglable>
+    </span>
+    <span v-else>
+      <p>
+        Logged in as {{loggedIn.userName}}. <br />
+        <button @click="logOut">
+          Log out
+        </button>
+      </p>
+    </span>
+
+    <router-view />
+  </main>
+</span>
 </template>
 
 <script>
 import Notification from "./components/Notification.vue"
-import User from "./views/User.vue"
-import Home from "./views/Home.vue"
-import Blog from "./views/Blog.vue"
+import Togglable from "./components/Togglable.vue"
+import LogIn from "./components/LogIn.vue"
 
 export default {
   name: 'App',
   components: {
     Notification,
-    User,
-    Home,
-    Blog
+    LogIn,
+    Togglable
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn
+    }
+  },
+  data() {
+    return {
+      formVisible: false
+    }
+  },
+  methods: {
+    toggleVisibility() {
+      this.formVisible = !this.formVisible
+    },
+    logOut() {
+      this.$store.commit("LOG_OUT")
+      this.$store.commit(
+        "SET_NOTIFICATION",
+        {
+          notification: "Logged out successfully.",
+          timeoutDuration: 3000
+        }
+      )
+      this.formVisible = false
+
+      if (this.$route.path !== "/") {
+        this.$router.push("/")
+      }
+    },
+  }, async created() {
+    this.$store.dispatch("initializeBlogs")
+    this.$store.dispatch("initializeUsers")
   }
 }
 </script>
@@ -34,8 +95,7 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   background-color: black;
-  color: magenta;
-  margin-top: 60px;
+  color: magenta; /**/
 }
 
 a:link {
@@ -77,5 +137,12 @@ button {
 
 ul {
   padding-left: 0;
+}
+
+nav {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  gap: 1em;
 }
 </style>
