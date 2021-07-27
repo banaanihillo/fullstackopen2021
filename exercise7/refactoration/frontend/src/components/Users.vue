@@ -9,7 +9,11 @@
 
     <tbody>
       <tr v-for="user in users" :key="user.id">
-        <td> {{user.userName}} </td>
+        <td>
+          <router-link :to="`/users/${user.id}`">
+            {{user.userName}}
+          </router-link>
+        </td>
         <td> {{user.blogs.length}} </td>
       </tr>
     </tbody>
