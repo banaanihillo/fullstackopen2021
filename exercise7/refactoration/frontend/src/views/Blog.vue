@@ -20,14 +20,8 @@
     <br />
   </p>
 
-  <!--
-    This should probably be a navigationary link in the main page,
-    in a footer, perhaps,
-    however, focus management becomes more complex at that points,
-    so just go with these two duplicate links for now
-  -->
-  <router-link to="/">
-    Back to home page
+  <router-link to="/blogs">
+    Back to blogs
   </router-link>
 </span>
 </template>

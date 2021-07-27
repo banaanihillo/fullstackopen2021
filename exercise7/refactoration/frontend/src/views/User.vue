@@ -16,8 +16,8 @@
     </ul>
   </span>
 
-  <router-link to="/">
-    Back to home page
+  <router-link to="/users">
+    Back to users
   </router-link>
 </span>
 </template>
