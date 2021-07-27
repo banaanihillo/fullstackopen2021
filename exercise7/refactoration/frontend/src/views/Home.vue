@@ -28,9 +28,7 @@
     </Togglable>
 
     <h2> List of blogs </h2>
-    <ul v-for="blog in sortedBlogs" :key="blog.id">
-      <Blog :blog="blog" />
-    </ul>
+    <Blogs />
 
     <h2> Table of users </h2>
     <Users />
@@ -39,7 +37,7 @@
 </template>
 
 <script>
-import Blog from "../components/Blog.vue"
+import Blogs from "../components/Blogs.vue"
 import LogIn from "../components/LogIn.vue"
 import AddBlog from "../components/AddBlog.vue"
 import Togglable from "../components/Togglable.vue"
@@ -47,7 +45,7 @@ import Users from "../components/Users.vue"
 
 export default {
   components: {
-    Blog,
+    Blogs,
     LogIn,
     AddBlog,
     Togglable,
@@ -58,10 +56,7 @@ export default {
       formVisible: false
     }
   },
-  computed: {
-    sortedBlogs() {
-      return this.$store.getters.sortedBlogs
-    },
+  computed: { //
     loggedIn() {
       return this.$store.state.loggedIn
     }
