@@ -7,21 +7,24 @@
     <router-view>
       <Home />
       <User />
+      <Blog />
     </router-view>
   </div>
 </template>
 
-<script> //
+<script>
 import Notification from "./components/Notification.vue"
 import User from "./views/User.vue"
 import Home from "./views/Home.vue"
+import Blog from "./views/Blog.vue"
 
 export default {
   name: 'App',
-  components: { //
+  components: {
     Notification,
     User,
-    Home
+    Home,
+    Blog
   }
 }
 </script>
@@ -41,6 +44,11 @@ a:link {
 
 a:visited {
   color: violet;
+}
+
+a {
+  text-decoration: none;
+  border-bottom: 1px solid;
 }
 
 input,

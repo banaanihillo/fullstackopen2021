@@ -24,7 +24,8 @@ export default new Vuex.Store({
     blogs: [],
     loggedIn: getUserFromLocalStorage() || null,
     users: [],
-    individualUser: null
+    individualUser: null,
+    individualBlog: null
   },
   mutations: {
     SET_NOTIFICATION(state, payload) {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     INITIALIZE_INDIVIDUAL_USER(state, individualUser) {
       state.individualUser = individualUser
     },
+    INITIALIZE_INDIVIDUAL_BLOG(state, individualBlog) {
+      state.individualBlog = individualBlog
+    },
     ADD_BLOG(state, newBlog) {
       state.blogs = state.blogs.concat(newBlog)
 
@@ -74,6 +78,7 @@ export default new Vuex.Store({
             : blog
         )
       })
+      state.individualBlog = upvotedBlog
     },
     DELETE_BLOG(state, deletedBlogID) {
       state.blogs = state.blogs.filter((blog) => {
@@ -127,6 +132,13 @@ export default new Vuex.Store({
       context.commit(
         "INITIALIZE_INDIVIDUAL_USER",
         individualUser
+      )
+    },
+    async initializeIndividualBlog(context, blogID) {
+      const individualBlog = await blogService.getBlogByID(blogID)
+      context.commit(
+        "INITIALIZE_INDIVIDUAL_BLOG",
+        individualBlog
       )
     },
     async addBlog(context, payload) {
