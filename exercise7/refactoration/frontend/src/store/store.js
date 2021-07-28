@@ -110,6 +110,16 @@ export default new Vuex.Store({
       state.loggedIn = null
       blogService.setToken(null)
       localStorage.removeItem("loggedIn")
+    },
+    ADD_COMMENT(state, commentedBlog) {
+      state.individualBlog = commentedBlog
+      state.blogs = state.blogs.map((blog) => {
+        return (
+          blog.id === commentedBlog.id
+            ? commentedBlog
+            : blog
+        )
+      })
     }
   },
   actions: {
@@ -167,6 +177,16 @@ export default new Vuex.Store({
       context.commit(
         "LOG_IN",
         loggedIn
+      )
+    },
+    async addComment(context, payload) {
+      const commentedBlog = await blogService.addComment(
+        payload.blogID,
+        payload.commentInput
+      )
+      context.commit(
+        "ADD_COMMENT",
+        commentedBlog
       )
     }
   },
