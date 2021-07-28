@@ -20,6 +20,18 @@
     <br />
   </p>
 
+  <span v-if="blog.comments.length > 0">
+    <h4> Comments </h4>
+    <ul>
+      <li
+        v-for="(comment, index) in blog.comments"
+        :key="`${comment}-${index}`"
+      >
+        {{comment}}
+      </li>
+    </ul>
+  </span>
+
   <router-link to="/blogs">
     Back to blogs
   </router-link>

@@ -72,4 +72,20 @@ blogRouter.patch("/:id", async (request, response) => {
   response.status(201).json(updatedBlog)
 })
 
+blogRouter.post("/:id/comments", async (request, response) => {
+  const commentedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    {
+      $push: {
+        comments: request.body.comment
+      }
+    },
+    {
+      new: true,
+      upsert: true
+    }
+  )
+  response.status(201).json(commentedBlog)
+})
+
 module.exports = blogRouter
