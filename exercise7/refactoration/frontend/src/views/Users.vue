@@ -1,5 +1,6 @@
 <template>
   <table>
+    <caption> Users </caption>
     <thead>
       <tr>
         <th> User </th>
@@ -30,7 +31,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 table {
   margin: auto;
 }
@@ -42,5 +43,11 @@ td {
 tr:nth-of-type(even) {
   background-color: #220000;
   color: hotpink;
+}
+
+table caption {
+  margin-bottom: 1em;
+  font-weight: bold;
+  font-size: 1.4em;
 }
 </style>

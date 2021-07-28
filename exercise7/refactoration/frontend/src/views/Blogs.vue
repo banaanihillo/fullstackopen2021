@@ -1,4 +1,6 @@
 <template>
+<section>
+  <h2> Blogs </h2>
   <ul>
     <li v-for="blog in sortedBlogs" :key="blog.id">
       <router-link :to="`/blogs/${blog.id}`">
@@ -6,6 +8,7 @@
       </router-link>
     </li>
   </ul>
+</section>
 </template>
 
 <script>
