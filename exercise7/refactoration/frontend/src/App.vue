@@ -145,4 +145,10 @@ nav {
   justify-content: center;
   gap: 1em;
 }
+
+footer {
+  padding: 1em;
+  margin: 1em;
+  border: 1px solid darkmagenta;
+}
 </style>

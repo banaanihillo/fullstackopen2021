@@ -1,28 +1,45 @@
 <template>
 <span v-if="blog">
-  <h2> {{blog.title}} </h2>
-  <h3> {{blog.author}} </h3>
-  <p>
-    Upvotes: {{blog.upvotes}}
-    <button
-      @click="addUpvote"
-      class="upvote"
-    > Upvote </button>
-  </p>
-  <p>
-    <a :href="blog.url"> {{blog.author}} </a>
-  </p>
+  <section>
+    <h2> {{blog.title}} </h2>
+    <h3> {{blog.author}} </h3>
+    <p>
+      Upvotes: {{blog.upvotes}}
+      <button
+        @click="addUpvote"
+        class="upvote"
+      > Upvote </button>
+    </p>
+    <p>
+      <a :href="blog.url"> {{blog.author}} </a>
+    </p>
 
-  <p v-if="loggedIn.id === blog.user">
-    <button @click="deleteBlog" class="danger">
-      Delete
-    </button>
-    <br />
-  </p>
+    <p v-if="loggedIn.id === blog.user">
+      <button @click="deleteBlog" class="danger">
+        Delete
+      </button>
+      <br />
+    </p>
+  </section>
 
-  <span v-if="blog.comments.length > 0">
+  <section>
     <h4> Comments </h4>
-    <ul>
+
+    <form @submit.prevent="addComment">
+      <label for="comment-input">
+        Add comment
+      </label>
+      <input
+        id="comment-input"
+        type="text"
+        v-model="commentInput"
+      />
+      <button type="submit">
+        Submit
+      </button>
+    </form>
+
+    <ul v-if="blog.comments.length > 0">
       <li
         v-for="(comment, index) in blog.comments"
         :key="`${comment}-${index}`"
@@ -30,17 +47,24 @@
         {{comment}}
       </li>
     </ul>
-  </span>
+  </section>
 
-  <router-link to="/blogs">
-    Back to blogs
-  </router-link>
+  <footer>
+    <router-link to="/blogs">
+      Back to blogs
+    </router-link>
+  </footer>
 </span>
 </template>
 
 <script>
 export default {
   name: "Blog",
+  data() {
+    return {
+      commentInput: ""
+    }
+  },
   created() {
     this.$store.dispatch(
       "initializeIndividualBlog",
@@ -96,6 +120,21 @@ export default {
           }
         )
       }
+    },
+    async addComment() {
+      await this.$store.dispatch(
+        "addComment",
+        {
+          blogID: this.blog.id,
+          commentInput: this.commentInput
+        }
+      )
+      this.$store.commit(
+        "SET_NOTIFICATION",
+        {
+          notification: "Comment addition successful."
+        }
+      )
     }
   }
 }
@@ -104,5 +143,9 @@ export default {
 <style scoped>
 .danger {
   background-color: lightsalmon;
+}
+
+input {
+  margin: 0 1em;
 }
 </style>
